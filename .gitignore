@@ -1,0 +1,24 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Composer
+vendor/
+!assets/js/vendor/
+composer.lock
+
+# Node (if needed later)
+node_modules/
+
+# WordPress
+*.log
+
+# Environment
+.env
+.env.local

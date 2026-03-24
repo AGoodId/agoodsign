@@ -1,0 +1,248 @@
+/**
+ * AGoodSign Slide Editor — Admin styles.
+ */
+
+/* Layout */
+.agoodsign-editor__layout {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 24px;
+	min-height: 600px;
+}
+
+@media (max-width: 1200px) {
+	.agoodsign-editor__layout {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* Fields column */
+.agoodsign-editor__fields {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.agoodsign-editor__section {
+	padding: 0;
+}
+
+.agoodsign-editor__label {
+	display: block;
+	font-weight: 600;
+	font-size: 13px;
+	margin-bottom: 6px;
+	color: #1d2327;
+}
+
+/* Template selector */
+.agoodsign-editor__templates {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 8px;
+}
+
+@media (max-width: 1400px) {
+	.agoodsign-editor__templates {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+.agoodsign-editor__template-btn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+	padding: 12px 8px;
+	border: 2px solid #dcdcde;
+	border-radius: 6px;
+	background: #fff;
+	cursor: pointer;
+	transition: all 0.15s ease;
+	text-align: center;
+}
+
+.agoodsign-editor__template-btn:hover {
+	border-color: #2271b1;
+	background: #f0f6fc;
+}
+
+.agoodsign-editor__template-btn.is-active {
+	border-color: #2271b1;
+	background: #f0f6fc;
+	box-shadow: 0 0 0 1px #2271b1;
+}
+
+.agoodsign-editor__template-btn .dashicons {
+	font-size: 24px;
+	width: 24px;
+	height: 24px;
+	color: #50575e;
+}
+
+.agoodsign-editor__template-btn.is-active .dashicons {
+	color: #2271b1;
+}
+
+.agoodsign-editor__template-name {
+	font-size: 11px;
+	line-height: 1.3;
+	color: #50575e;
+}
+
+/* Inputs */
+.agoodsign-editor__input,
+.agoodsign-editor__textarea,
+.agoodsign-editor__select {
+	font-size: 14px;
+	padding: 8px 10px;
+	border: 1px solid #8c8f94;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.agoodsign-editor__input:focus,
+.agoodsign-editor__textarea:focus,
+.agoodsign-editor__select:focus {
+	border-color: #2271b1;
+	box-shadow: 0 0 0 1px #2271b1;
+	outline: none;
+}
+
+.agoodsign-editor__input--small {
+	width: 80px;
+}
+
+/* Color picker row */
+.agoodsign-editor__color-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.agoodsign-editor__color-input {
+	width: 48px;
+	height: 36px;
+	padding: 2px;
+	border: 1px solid #8c8f94;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.agoodsign-editor__color-text {
+	width: 100px;
+	font-size: 14px;
+	font-family: monospace;
+	padding: 6px 10px;
+	border: 1px solid #8c8f94;
+	border-radius: 4px;
+}
+
+/* Image picker */
+.agoodsign-editor__image-picker {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.agoodsign-editor__image-preview {
+	position: relative;
+	max-width: 280px;
+	border-radius: 6px;
+	overflow: hidden;
+	border: 1px solid #dcdcde;
+}
+
+.agoodsign-editor__image-preview img {
+	display: block;
+	width: 100%;
+	height: 140px;
+	object-fit: cover;
+}
+
+.agoodsign-editor__image-remove {
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	border: none;
+	background: rgba(0, 0, 0, 0.6);
+	color: #fff;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background 0.15s;
+}
+
+.agoodsign-editor__image-remove:hover {
+	background: rgba(200, 50, 50, 0.9);
+}
+
+.agoodsign-editor__image-remove .dashicons {
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+}
+
+.agoodsign-editor__image-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.agoodsign-editor__image-btn .dashicons {
+	font-size: 16px;
+	width: 16px;
+	height: 16px;
+}
+
+/* Preview column */
+.agoodsign-editor__preview-col {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.agoodsign-editor__preview-label {
+	font-weight: 600;
+	font-size: 13px;
+	color: #1d2327;
+}
+
+.agoodsign-editor__preview-container {
+	flex: 1;
+	background: #1d1d1d;
+	border-radius: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 16px;
+	min-height: 500px;
+	overflow: hidden;
+}
+
+.agoodsign-editor__preview-frame {
+	width: 270px;
+	height: 480px;
+	border-radius: 6px;
+	overflow: hidden;
+	box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+	position: relative;
+}
+
+.agoodsign-editor__preview-iframe {
+	width: 1080px;
+	height: 1920px;
+	border: none;
+	transform-origin: top left;
+	transform: scale(0.25);
+	pointer-events: none;
+}
+
+/* Smooth transitions for conditional fields */
+[x-transition] {
+	transition: opacity 0.2s ease, transform 0.2s ease;
+}

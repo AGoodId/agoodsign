@@ -1,0 +1,265 @@
+/**
+ * AGoodSign Player — Fullscreen layout, transitions, and animations.
+ */
+
+/* === Base === */
+*, *::before, *::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background: #000;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body {
+	font-family: var(--agoodsign-font-body, 'Helvetica Neue', Arial, sans-serif);
+	color: #fff;
+}
+
+/* === Player wrapper === */
+.agoodsign-player {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+/* === Slide base === */
+.agoodsign-slide {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	opacity: 0;
+	transition: opacity 0.5s ease;
+	z-index: 1;
+}
+
+.agoodsign-slide.is-active {
+	opacity: 1;
+	z-index: 2;
+}
+
+/* === Background image === */
+.agoodsign-slide__bg {
+	position: absolute;
+	inset: 0;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+/* === Text overlay === */
+.agoodsign-overlay {
+	position: absolute;
+	left: 0;
+	right: 0;
+	padding: 60px 50px;
+	z-index: 3;
+}
+
+.agoodsign-overlay--bottom {
+	bottom: 0;
+	background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
+}
+
+.agoodsign-overlay--top {
+	top: 0;
+	background: linear-gradient(rgba(0, 0, 0, 0.75), transparent);
+}
+
+.agoodsign-overlay--center {
+	top: 50%;
+	transform: translateY(-50%);
+	background: rgba(0, 0, 0, 0.5);
+}
+
+/* === Typography === */
+.agoodsign-slide__heading {
+	font-family: var(--agoodsign-font-heading, 'Helvetica Neue', Arial, sans-serif);
+	font-size: clamp(36px, 6.7vw, 72px);
+	font-weight: 700;
+	line-height: 1.15;
+	margin-bottom: 20px;
+}
+
+.agoodsign-slide__body {
+	font-size: clamp(20px, 3.7vw, 40px);
+	line-height: 1.4;
+	opacity: 0.9;
+}
+
+/* === Split template === */
+.agoodsign-slide--split {
+	display: flex;
+}
+
+.agoodsign-slide--split-image-right {
+	flex-direction: row-reverse;
+}
+
+.agoodsign-split__image,
+.agoodsign-split__text {
+	width: 50%;
+	height: 100%;
+}
+
+.agoodsign-split__image {
+	position: relative;
+}
+
+.agoodsign-split__text {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 60px 50px;
+}
+
+/* === Text Only template === */
+.agoodsign-slide--text-only {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: 80px;
+}
+
+.agoodsign-text-only__content {
+	max-width: 100%;
+}
+
+.agoodsign-text-only__divider {
+	width: 80px;
+	height: 4px;
+	background: rgba(255, 255, 255, 0.4);
+	margin: 30px auto;
+}
+
+/* === Video template === */
+.agoodsign-slide__video,
+.agoodsign-slide__video-embed {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border: 0;
+}
+
+/* === Title Card template === */
+.agoodsign-slide--title-card {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+
+.agoodsign-title-card__bg-darken::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 1;
+}
+
+.agoodsign-title-card__content {
+	position: relative;
+	z-index: 2;
+	padding: 80px;
+}
+
+.agoodsign-title-card__heading {
+	font-size: clamp(48px, 8.9vw, 96px);
+}
+
+.agoodsign-title-card__divider {
+	width: 120px;
+	height: 4px;
+	background: rgba(255, 255, 255, 0.6);
+	margin: 40px auto;
+}
+
+.agoodsign-title-card__subtitle {
+	font-size: clamp(22px, 4vw, 44px);
+	opacity: 0.85;
+}
+
+.agoodsign-title-card__border-top,
+.agoodsign-title-card__border-bottom {
+	width: 200px;
+	height: 2px;
+	background: rgba(255, 255, 255, 0.2);
+	margin: 30px auto;
+}
+
+/* === Entrance animations (CSS) === */
+
+/* Fade In */
+.agoodsign-slide.is-active .agoodsign-anim--fade-in {
+	animation: agoodsign-fade-in 0.8s ease both;
+}
+
+@keyframes agoodsign-fade-in {
+	from { opacity: 0; }
+	to   { opacity: 1; }
+}
+
+/* Slide Up */
+.agoodsign-slide.is-active .agoodsign-anim--slide-up {
+	animation: agoodsign-slide-up 0.6s ease-out both;
+}
+
+@keyframes agoodsign-slide-up {
+	from { opacity: 0; transform: translateY(50px); }
+	to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Slide Left */
+.agoodsign-slide.is-active .agoodsign-anim--slide-left {
+	animation: agoodsign-slide-left 0.6s ease-out both;
+}
+
+@keyframes agoodsign-slide-left {
+	from { opacity: 0; transform: translateX(100px); }
+	to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Zoom In */
+.agoodsign-slide.is-active .agoodsign-anim--zoom-in {
+	animation: agoodsign-zoom-in 0.8s ease both;
+}
+
+@keyframes agoodsign-zoom-in {
+	from { opacity: 0; transform: scale(0.8); }
+	to   { opacity: 1; transform: scale(1); }
+}
+
+/* Ken Burns — continuous on background images */
+.agoodsign-slide.is-active .agoodsign-slide__bg.agoodsign-anim--ken-burns {
+	animation: agoodsign-ken-burns var(--agoodsign-duration, 10s) ease-in-out both;
+}
+
+@keyframes agoodsign-ken-burns {
+	from { transform: scale(1) translate(0, 0); }
+	to   { transform: scale(1.12) translate(-2%, -1%); }
+}
+
+/* Error state */
+.agoodsign-player__empty {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	font-size: 24px;
+	color: #555;
+	text-align: center;
+	padding: 40px;
+}
