@@ -25,6 +25,11 @@
 	 * Initialize: play animation on first slide and schedule next.
 	 */
 	function init() {
+		// Show controls permanently in preview mode.
+		if ( data.isPreview && player ) {
+			player.classList.add( 'is-preview' );
+		}
+
 		playAnimation( currentIndex );
 		updateCounter();
 		scheduleNext();

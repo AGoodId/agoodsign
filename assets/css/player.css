@@ -371,7 +371,8 @@ body {
 	pointer-events: none;
 }
 
-.agoodsign-player:hover .agoodsign-controls {
+.agoodsign-player:hover .agoodsign-controls,
+.agoodsign-player.is-preview .agoodsign-controls {
 	opacity: 1;
 	pointer-events: auto;
 }
