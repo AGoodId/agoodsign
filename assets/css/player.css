@@ -43,7 +43,7 @@ body {
 	z-index: 1;
 }
 
-.agoodsign-slide.is-active {
+.agoodsign-slide-wrapper.is-active .agoodsign-slide {
 	opacity: 1;
 	z-index: 2;
 }
@@ -203,7 +203,7 @@ body {
 /* === Entrance animations (CSS) === */
 
 /* Fade In */
-.agoodsign-slide.is-active .agoodsign-anim--fade-in {
+.agoodsign-slide-wrapper.is-active .agoodsign-anim--fade-in {
 	animation: agoodsign-fade-in 0.8s ease both;
 }
 
@@ -213,7 +213,7 @@ body {
 }
 
 /* Slide Up */
-.agoodsign-slide.is-active .agoodsign-anim--slide-up {
+.agoodsign-slide-wrapper.is-active .agoodsign-anim--slide-up {
 	animation: agoodsign-slide-up 0.6s ease-out both;
 }
 
@@ -223,7 +223,7 @@ body {
 }
 
 /* Slide Left */
-.agoodsign-slide.is-active .agoodsign-anim--slide-left {
+.agoodsign-slide-wrapper.is-active .agoodsign-anim--slide-left {
 	animation: agoodsign-slide-left 0.6s ease-out both;
 }
 
@@ -233,7 +233,7 @@ body {
 }
 
 /* Zoom In */
-.agoodsign-slide.is-active .agoodsign-anim--zoom-in {
+.agoodsign-slide-wrapper.is-active .agoodsign-anim--zoom-in {
 	animation: agoodsign-zoom-in 0.8s ease both;
 }
 
@@ -243,7 +243,7 @@ body {
 }
 
 /* Ken Burns — continuous on background images */
-.agoodsign-slide.is-active .agoodsign-slide__bg.agoodsign-anim--ken-burns {
+.agoodsign-slide-wrapper.is-active .agoodsign-slide__bg.agoodsign-anim--ken-burns {
 	animation: agoodsign-ken-burns var(--agoodsign-duration, 10s) ease-in-out both;
 }
 
