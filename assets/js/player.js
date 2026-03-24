@@ -13,20 +13,49 @@
 
 	let currentIndex = 0;
 	let timer        = null;
+	let paused       = false;
+
+	// Control elements.
+	const prevBtn    = document.getElementById( 'agoodsign-prev' );
+	const nextBtn    = document.getElementById( 'agoodsign-next' );
+	const pauseBtn   = document.getElementById( 'agoodsign-pause' );
+	const counter    = document.getElementById( 'agoodsign-counter' );
 
 	/**
 	 * Initialize: play animation on first slide and schedule next.
 	 */
 	function init() {
 		playAnimation( currentIndex );
+		updateCounter();
 		scheduleNext();
 
 		// Pause when tab is hidden, resume when visible.
 		document.addEventListener( 'visibilitychange', function () {
 			if ( document.hidden ) {
 				clearTimeout( timer );
-			} else {
+			} else if ( ! paused ) {
 				scheduleNext();
+			}
+		} );
+
+		// Navigation buttons.
+		if ( prevBtn ) prevBtn.addEventListener( 'click', goToPrev );
+		if ( nextBtn ) nextBtn.addEventListener( 'click', function () { goToNext(); } );
+		if ( pauseBtn ) pauseBtn.addEventListener( 'click', togglePause );
+
+		// Keyboard navigation.
+		document.addEventListener( 'keydown', function ( e ) {
+			switch ( e.key ) {
+				case 'ArrowLeft':
+					goToPrev();
+					break;
+				case 'ArrowRight':
+					goToNext();
+					break;
+				case ' ':
+					e.preventDefault();
+					togglePause();
+					break;
 			}
 		} );
 	}
@@ -36,6 +65,8 @@
 	 */
 	function scheduleNext() {
 		clearTimeout( timer );
+
+		if ( paused ) return;
 
 		const slideData = slides[ currentIndex ];
 		const duration  = ( slideData?.duration || 10 ) * 1000;
@@ -58,19 +89,20 @@
 				goToNext();
 			}, duration );
 		} else {
-			timer = setTimeout( goToNext, duration );
+			timer = setTimeout( function () { goToNext(); }, duration );
 		}
 	}
 
 	/**
-	 * Transition to next slide.
+	 * Go to a specific slide by index.
 	 */
-	function goToNext() {
-		const prevIndex = currentIndex;
-		currentIndex = ( currentIndex + 1 ) % wrappers.length;
+	function goTo( newIndex ) {
+		if ( newIndex === currentIndex ) return;
 
 		// Deactivate previous.
-		wrappers[ prevIndex ].classList.remove( 'is-active' );
+		wrappers[ currentIndex ].classList.remove( 'is-active' );
+
+		currentIndex = newIndex;
 
 		// Activate next.
 		wrappers[ currentIndex ].classList.add( 'is-active' );
@@ -78,11 +110,60 @@
 		// Play animation.
 		playAnimation( currentIndex );
 
+		// Update counter.
+		updateCounter();
+
 		// Preload next image/video.
 		preloadNext();
 
-		// Schedule.
+		// Reschedule.
 		scheduleNext();
+	}
+
+	/**
+	 * Transition to next slide.
+	 */
+	function goToNext() {
+		goTo( ( currentIndex + 1 ) % wrappers.length );
+	}
+
+	/**
+	 * Transition to previous slide.
+	 */
+	function goToPrev() {
+		goTo( ( currentIndex - 1 + wrappers.length ) % wrappers.length );
+	}
+
+	/**
+	 * Toggle pause/play.
+	 */
+	function togglePause() {
+		paused = ! paused;
+
+		if ( pauseBtn ) {
+			if ( paused ) {
+				pauseBtn.innerHTML = '&#9654;';
+				pauseBtn.classList.add( 'is-paused' );
+			} else {
+				pauseBtn.innerHTML = '&#10074;&#10074;';
+				pauseBtn.classList.remove( 'is-paused' );
+			}
+		}
+
+		if ( paused ) {
+			clearTimeout( timer );
+		} else {
+			scheduleNext();
+		}
+	}
+
+	/**
+	 * Update the slide counter display.
+	 */
+	function updateCounter() {
+		if ( counter ) {
+			counter.textContent = ( currentIndex + 1 ) + ' / ' + wrappers.length;
+		}
 	}
 
 	/**

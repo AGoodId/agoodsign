@@ -48,6 +48,14 @@ $is_preview = isset( $_GET['preview'] ) && '1' === $_GET['preview'];
 				<?php AGoodSign_Templates::render_slide( $slide ); ?>
 			</div>
 		<?php endforeach; ?>
+
+		<!-- Navigation controls (visible on hover) -->
+		<div class="agoodsign-controls" id="agoodsign-controls">
+			<button class="agoodsign-controls__btn agoodsign-controls__prev" id="agoodsign-prev" title="<?php esc_attr_e( 'Previous slide', 'agoodsign' ); ?>">&#8249;</button>
+			<button class="agoodsign-controls__btn agoodsign-controls__pause" id="agoodsign-pause" title="<?php esc_attr_e( 'Pause / Play', 'agoodsign' ); ?>">&#10074;&#10074;</button>
+			<button class="agoodsign-controls__btn agoodsign-controls__next" id="agoodsign-next" title="<?php esc_attr_e( 'Next slide', 'agoodsign' ); ?>">&#8250;</button>
+			<span class="agoodsign-controls__counter" id="agoodsign-counter">1 / <?php echo count( $slides ); ?></span>
+		</div>
 	</div>
 
 	<script>

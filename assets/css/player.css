@@ -332,6 +332,74 @@ body {
 	filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
 }
 
+/* === Navigation controls === */
+.agoodsign-controls {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	padding: 16px;
+	background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+	z-index: 100;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	pointer-events: none;
+}
+
+.agoodsign-player:hover .agoodsign-controls {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.agoodsign-controls__btn {
+	width: 48px;
+	height: 48px;
+	border: none;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.15);
+	color: #fff;
+	font-size: 24px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background 0.2s;
+	backdrop-filter: blur(4px);
+	line-height: 1;
+}
+
+.agoodsign-controls__btn:hover {
+	background: rgba(255, 255, 255, 0.3);
+}
+
+.agoodsign-controls__prev,
+.agoodsign-controls__next {
+	font-size: 32px;
+}
+
+.agoodsign-controls__pause {
+	font-size: 16px;
+	letter-spacing: 2px;
+}
+
+.agoodsign-controls__pause.is-paused {
+	font-size: 22px;
+	letter-spacing: 0;
+}
+
+.agoodsign-controls__counter {
+	color: rgba(255, 255, 255, 0.6);
+	font-size: 14px;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	margin-left: 8px;
+	min-width: 40px;
+	text-align: center;
+}
+
 /* Error state */
 .agoodsign-player__empty {
 	display: flex;
