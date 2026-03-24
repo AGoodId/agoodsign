@@ -16,7 +16,11 @@ document.addEventListener( 'alpine:init', () => {
 			duration: initialData.duration || 10,
 			bg_color: initialData.bg_color || '#000000',
 			overlay_position: initialData.overlay_position || 'bottom',
+			overlay_color: initialData.overlay_color || '#000000',
+			overlay_opacity: initialData.overlay_opacity ?? 0.6,
 			split_image_side: initialData.split_image_side || 'left',
+			image_focus_x: initialData.image_focus_x ?? 50,
+			image_focus_y: initialData.image_focus_y ?? 50,
 			text_color: initialData.text_color || '#ffffff',
 			pin_enabled: initialData.pin_enabled || false,
 			pin_icon: initialData.pin_icon || 'map-pin',
@@ -71,6 +75,14 @@ document.addEventListener( 'alpine:init', () => {
 		get needsBgColor() {
 			const fields = this.templateFields[ this.slide.template ] || [];
 			return fields.includes( 'bg_color' );
+		},
+
+		get overlayRgba() {
+			const hex = this.slide.overlay_color || '#000000';
+			const r = parseInt( hex.slice( 1, 3 ), 16 );
+			const g = parseInt( hex.slice( 3, 5 ), 16 );
+			const b = parseInt( hex.slice( 5, 7 ), 16 );
+			return `rgba(${r},${g},${b},${this.slide.overlay_opacity})`;
 		},
 
 		get needsOverlay() {
@@ -132,25 +144,25 @@ body {
 	position: absolute;
 	inset: 0;
 	background-size: cover;
-	background-position: center;
+	background-position: ${s.image_focus_x}% ${s.image_focus_y}%;
 }
 .overlay {
 	position: absolute;
 	left: 0;
 	right: 0;
 	padding: 60px 50px;
-	background: linear-gradient(transparent, rgba(0,0,0,0.75));
+	background: linear-gradient(transparent, ${this.overlayRgba});
 	z-index: 2;
 }
 .overlay--top {
 	top: 0;
 	bottom: auto;
-	background: linear-gradient(rgba(0,0,0,0.75), transparent);
+	background: linear-gradient(${this.overlayRgba}, transparent);
 }
 .overlay--center {
 	top: 50%;
 	transform: translateY(-50%);
-	background: rgba(0,0,0,0.5);
+	background: ${this.overlayRgba};
 }
 .overlay--bottom { bottom: 0; }
 .heading {
@@ -450,6 +462,12 @@ body {
 		removeImage() {
 			this.slide.image_url = '';
 			this.slide.image_id = 0;
+		},
+
+		setFocalPoint( event ) {
+			const rect = event.currentTarget.getBoundingClientRect();
+			this.slide.image_focus_x = Math.round( ( event.clientX - rect.left ) / rect.width * 100 );
+			this.slide.image_focus_y = Math.round( ( event.clientY - rect.top ) / rect.height * 100 );
 		},
 	} ) );
 } );

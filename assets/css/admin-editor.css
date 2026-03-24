@@ -160,6 +160,49 @@
 	object-fit: cover;
 }
 
+/* Focal point picker */
+.agoodsign-editor__focal-point {
+	position: absolute;
+	inset: 0;
+	cursor: crosshair;
+	z-index: 1;
+}
+
+.agoodsign-editor__focal-point-marker {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	transform: translate(-50%, -50%);
+	border: 2px solid #fff;
+	border-radius: 50%;
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+	pointer-events: none;
+}
+
+.agoodsign-editor__focal-point-marker::before,
+.agoodsign-editor__focal-point-marker::after {
+	content: '';
+	position: absolute;
+	background: #fff;
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+}
+
+.agoodsign-editor__focal-point-marker::before {
+	width: 2px;
+	height: 8px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.agoodsign-editor__focal-point-marker::after {
+	width: 8px;
+	height: 2px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
 .agoodsign-editor__image-remove {
 	position: absolute;
 	top: 6px;
@@ -188,15 +231,18 @@
 }
 
 .agoodsign-editor__image-btn {
-	display: inline-flex;
+	display: inline-flex !important;
 	align-items: center;
 	gap: 6px;
+	width: fit-content;
 }
 
 .agoodsign-editor__image-btn .dashicons {
 	font-size: 16px;
 	width: 16px;
 	height: 16px;
+	line-height: 1;
+	vertical-align: middle;
 }
 
 /* Preview column */

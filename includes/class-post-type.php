@@ -136,6 +136,16 @@ class AGoodSign_Post_Type {
 				'default'           => 'bottom',
 				'sanitize_callback' => 'sanitize_text_field',
 			),
+			'_agoodsign_overlay_color'    => array(
+				'type'              => 'string',
+				'default'           => '#000000',
+				'sanitize_callback' => 'sanitize_hex_color',
+			),
+			'_agoodsign_overlay_opacity'  => array(
+				'type'              => 'number',
+				'default'           => 0.6,
+				'sanitize_callback' => array( __CLASS__, 'sanitize_float' ),
+			),
 			'_agoodsign_bg_color'         => array(
 				'type'              => 'string',
 				'default'           => '#000000',
@@ -150,6 +160,16 @@ class AGoodSign_Post_Type {
 				'type'              => 'string',
 				'default'           => 'left',
 				'sanitize_callback' => 'sanitize_text_field',
+			),
+			'_agoodsign_image_focus_x'    => array(
+				'type'              => 'number',
+				'default'           => 50,
+				'sanitize_callback' => array( __CLASS__, 'sanitize_float' ),
+			),
+			'_agoodsign_image_focus_y'    => array(
+				'type'              => 'number',
+				'default'           => 50,
+				'sanitize_callback' => array( __CLASS__, 'sanitize_float' ),
 			),
 			'_agoodsign_text_color'       => array(
 				'type'              => 'string',
@@ -169,12 +189,12 @@ class AGoodSign_Post_Type {
 			'_agoodsign_pin_x'            => array(
 				'type'              => 'number',
 				'default'           => 50,
-				'sanitize_callback' => 'floatval',
+				'sanitize_callback' => array( __CLASS__, 'sanitize_float' ),
 			),
 			'_agoodsign_pin_y'            => array(
 				'type'              => 'number',
 				'default'           => 50,
-				'sanitize_callback' => 'floatval',
+				'sanitize_callback' => array( __CLASS__, 'sanitize_float' ),
 			),
 			'_agoodsign_pin_color'        => array(
 				'type'              => 'string',
@@ -210,6 +230,16 @@ class AGoodSign_Post_Type {
 				},
 			) );
 		}
+	}
+
+	/**
+	 * Sanitize a float value (wrapper for floatval that accepts only 1 arg).
+	 *
+	 * @param mixed $value The value to sanitize.
+	 * @return float
+	 */
+	public static function sanitize_float( $value ) {
+		return floatval( $value );
 	}
 
 	/**

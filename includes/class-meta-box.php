@@ -164,7 +164,15 @@ class AGoodSign_Meta_Box {
 						<label class="agoodsign-editor__label"><?php esc_html_e( 'Image', 'agoodsign' ); ?></label>
 						<div class="agoodsign-editor__image-picker">
 							<div class="agoodsign-editor__image-preview" x-show="slide.image_url">
-								<img :src="slide.image_url" alt="">
+								<img :src="slide.image_url" alt=""
+									:style="'object-position:' + slide.image_focus_x + '% ' + slide.image_focus_y + '%'">
+								<div class="agoodsign-editor__focal-point"
+									@click="setFocalPoint($event)"
+									:title="'<?php esc_attr_e( 'Click to set focal point', 'agoodsign' ); ?>'">
+									<div class="agoodsign-editor__focal-point-marker"
+										:style="'left:' + slide.image_focus_x + '%;top:' + slide.image_focus_y + '%'">
+									</div>
+								</div>
 								<button type="button" class="agoodsign-editor__image-remove" @click="removeImage()">
 									<span class="dashicons dashicons-no-alt"></span>
 								</button>
@@ -228,6 +236,26 @@ class AGoodSign_Meta_Box {
 							<option value="center"><?php esc_html_e( 'Center', 'agoodsign' ); ?></option>
 							<option value="bottom"><?php esc_html_e( 'Bottom', 'agoodsign' ); ?></option>
 						</select>
+					</div>
+
+					<!-- Overlay style -->
+					<div class="agoodsign-editor__section" x-show="needsOverlay" x-transition>
+						<label class="agoodsign-editor__label"><?php esc_html_e( 'Overlay', 'agoodsign' ); ?></label>
+						<div class="agoodsign-editor__pin-row" style="flex-wrap:wrap;gap:12px">
+							<div>
+								<label class="agoodsign-editor__label" style="font-weight:normal"><?php esc_html_e( 'Color', 'agoodsign' ); ?></label>
+								<div class="agoodsign-editor__color-row">
+									<input type="color" x-model="slide.overlay_color" class="agoodsign-editor__color-input">
+									<input type="text" x-model="slide.overlay_color" class="agoodsign-editor__color-text" maxlength="7">
+								</div>
+							</div>
+							<div style="flex:1;min-width:120px">
+								<label class="agoodsign-editor__label" style="font-weight:normal">
+									<?php esc_html_e( 'Opacity', 'agoodsign' ); ?>: <span x-text="Math.round(slide.overlay_opacity * 100)"></span>%
+								</label>
+								<input type="range" x-model.number="slide.overlay_opacity" min="0" max="1" step="0.05" style="width:100%">
+							</div>
+						</div>
 					</div>
 
 					<!-- Split image side -->
@@ -383,6 +411,10 @@ class AGoodSign_Meta_Box {
 			<input type="hidden" name="_agoodsign_overlay_position" :value="slide.overlay_position">
 			<input type="hidden" name="_agoodsign_media_type" :value="slide.template === 'video' ? 'video' : 'image'">
 			<input type="hidden" name="_agoodsign_split_image_side" :value="slide.split_image_side">
+			<input type="hidden" name="_agoodsign_overlay_color" :value="slide.overlay_color">
+			<input type="hidden" name="_agoodsign_overlay_opacity" :value="slide.overlay_opacity">
+			<input type="hidden" name="_agoodsign_image_focus_x" :value="slide.image_focus_x">
+			<input type="hidden" name="_agoodsign_image_focus_y" :value="slide.image_focus_y">
 			<input type="hidden" name="_agoodsign_text_color" :value="slide.text_color">
 			<input type="hidden" name="_agoodsign_pin_enabled" :value="slide.pin_enabled ? '1' : '0'">
 			<input type="hidden" name="_agoodsign_pin_icon" :value="slide.pin_icon">
@@ -427,6 +459,10 @@ class AGoodSign_Meta_Box {
 			'_agoodsign_overlay_position' => 'sanitize_text_field',
 			'_agoodsign_media_type'       => 'sanitize_text_field',
 			'_agoodsign_split_image_side' => 'sanitize_text_field',
+			'_agoodsign_overlay_color'    => 'sanitize_hex_color',
+			'_agoodsign_overlay_opacity'  => 'floatval',
+			'_agoodsign_image_focus_x'    => 'floatval',
+			'_agoodsign_image_focus_y'    => 'floatval',
 			'_agoodsign_text_color'       => 'sanitize_hex_color',
 			'_agoodsign_pin_enabled'      => 'rest_sanitize_boolean',
 			'_agoodsign_pin_icon'         => 'sanitize_text_field',

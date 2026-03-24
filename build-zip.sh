@@ -28,9 +28,10 @@ rsync -a --exclude='.git' \
 # Create zip.
 cd "$BUILD_DIR"
 zip -r "${PLUGIN_SLUG}.zip" "$PLUGIN_SLUG/"
-mv "${PLUGIN_SLUG}.zip" "$SCRIPT_DIR/"
+OUTPUT_DIR="$(dirname "$SCRIPT_DIR")"
+mv "${PLUGIN_SLUG}.zip" "$OUTPUT_DIR/"
 
 # Clean up.
 rm -rf "$BUILD_DIR"
 
-echo "Done → ${SCRIPT_DIR}/${PLUGIN_SLUG}.zip"
+echo "Done → ${OUTPUT_DIR}/${PLUGIN_SLUG}.zip"
