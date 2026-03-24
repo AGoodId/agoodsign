@@ -16,6 +16,7 @@ $image_side = $slide['split_image_side'] ?: 'left';
 $modifier   = 'agoodsign-slide--split-image-' . esc_attr( $image_side );
 ?>
 <div class="agoodsign-slide agoodsign-slide--split <?php echo esc_attr( $modifier ); ?>"
+	style="color: <?php echo esc_attr( $slide['text_color'] ?: '#ffffff' ); ?>"
 	data-duration="<?php echo absint( $slide['duration'] ); ?>"
 	data-animation="<?php echo esc_attr( $slide['animation'] ); ?>">
 

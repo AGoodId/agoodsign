@@ -16,6 +16,7 @@ $overlay_class = 'agoodsign-overlay--' . esc_attr( $slide['overlay_position'] );
 $has_text      = ! empty( $slide['heading'] ) || ! empty( $slide['body_text'] );
 ?>
 <div class="agoodsign-slide agoodsign-slide--fullscreen-image"
+	style="color: <?php echo esc_attr( $slide['text_color'] ?: '#ffffff' ); ?>"
 	data-duration="<?php echo absint( $slide['duration'] ); ?>"
 	data-animation="<?php echo esc_attr( $slide['animation'] ); ?>">
 

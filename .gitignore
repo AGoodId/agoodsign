@@ -19,6 +19,9 @@ node_modules/
 # WordPress
 *.log
 
+# Build artifacts
+*.zip
+
 # Environment
 .env
 .env.local

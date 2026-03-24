@@ -151,6 +151,11 @@ class AGoodSign_Post_Type {
 				'default'           => 'left',
 				'sanitize_callback' => 'sanitize_text_field',
 			),
+			'_agoodsign_text_color'       => array(
+				'type'              => 'string',
+				'default'           => '#ffffff',
+				'sanitize_callback' => 'sanitize_hex_color',
+			),
 			'_agoodsign_pin_enabled'      => array(
 				'type'              => 'boolean',
 				'default'           => false,

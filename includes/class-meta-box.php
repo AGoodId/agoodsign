@@ -48,14 +48,8 @@ class AGoodSign_Meta_Box {
 
 		wp_enqueue_media();
 
-		wp_enqueue_script(
-			'alpinejs',
-			AGOODSIGN_PLUGIN_URL . 'assets/js/vendor/alpine.min.js',
-			array(),
-			'3.14.8',
-			array( 'strategy' => 'defer' )
-		);
-
+		// Load our scripts FIRST so alpine:init listener is registered
+		// before Alpine auto-initializes.
 		wp_enqueue_script(
 			'agoodsign-lucide-icons',
 			AGOODSIGN_PLUGIN_URL . 'assets/js/lucide-icons.js',
@@ -67,9 +61,18 @@ class AGoodSign_Meta_Box {
 		wp_enqueue_script(
 			'agoodsign-admin-editor',
 			AGOODSIGN_PLUGIN_URL . 'assets/js/admin-editor.js',
-			array( 'alpinejs', 'agoodsign-lucide-icons', 'wp-i18n' ),
+			array( 'agoodsign-lucide-icons', 'wp-i18n' ),
 			AGOODSIGN_VERSION,
 			true
+		);
+
+		// Alpine loads LAST — depends on our editor script to guarantee order.
+		wp_enqueue_script(
+			'alpinejs',
+			AGOODSIGN_PLUGIN_URL . 'assets/js/vendor/alpine.min.js',
+			array( 'agoodsign-admin-editor' ),
+			'3.14.8',
+			array( 'strategy' => 'defer' )
 		);
 
 		wp_enqueue_style(
@@ -195,6 +198,22 @@ class AGoodSign_Meta_Box {
 								class="agoodsign-editor__color-input">
 							<input type="text"
 								x-model="slide.bg_color"
+								class="agoodsign-editor__color-text"
+								maxlength="7"
+								pattern="#[0-9a-fA-F]{6}">
+						</div>
+					</div>
+
+					<!-- Text color -->
+					<div class="agoodsign-editor__section">
+						<label class="agoodsign-editor__label" for="agoodsign-text-color"><?php esc_html_e( 'Text Color', 'agoodsign' ); ?></label>
+						<div class="agoodsign-editor__color-row">
+							<input type="color"
+								id="agoodsign-text-color"
+								x-model="slide.text_color"
+								class="agoodsign-editor__color-input">
+							<input type="text"
+								x-model="slide.text_color"
 								class="agoodsign-editor__color-text"
 								maxlength="7"
 								pattern="#[0-9a-fA-F]{6}">
@@ -364,6 +383,7 @@ class AGoodSign_Meta_Box {
 			<input type="hidden" name="_agoodsign_overlay_position" :value="slide.overlay_position">
 			<input type="hidden" name="_agoodsign_media_type" :value="slide.template === 'video' ? 'video' : 'image'">
 			<input type="hidden" name="_agoodsign_split_image_side" :value="slide.split_image_side">
+			<input type="hidden" name="_agoodsign_text_color" :value="slide.text_color">
 			<input type="hidden" name="_agoodsign_pin_enabled" :value="slide.pin_enabled ? '1' : '0'">
 			<input type="hidden" name="_agoodsign_pin_icon" :value="slide.pin_icon">
 			<input type="hidden" name="_agoodsign_pin_x" :value="slide.pin_x">
@@ -407,6 +427,7 @@ class AGoodSign_Meta_Box {
 			'_agoodsign_overlay_position' => 'sanitize_text_field',
 			'_agoodsign_media_type'       => 'sanitize_text_field',
 			'_agoodsign_split_image_side' => 'sanitize_text_field',
+			'_agoodsign_text_color'       => 'sanitize_hex_color',
 			'_agoodsign_pin_enabled'      => 'rest_sanitize_boolean',
 			'_agoodsign_pin_icon'         => 'sanitize_text_field',
 			'_agoodsign_pin_x'            => 'floatval',

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: AGoodSign
- * Plugin URI:  https://github.com/matsingerdal/agoodsign
+ * Plugin URI:  https://github.com/AGoodId/agoodsign
  * Description: Lightweight digital signage plugin for WordPress. Create slides, organize them in channels, and display them on screens.
  * Version:     0.1.0
  * Author:      Mat Singerdal
@@ -22,6 +22,20 @@ define( 'AGOODSIGN_VERSION', '0.1.0' );
 define( 'AGOODSIGN_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'AGOODSIGN_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'AGOODSIGN_PLUGIN_FILE', __FILE__ );
+
+/**
+ * Auto-update from GitHub releases.
+ */
+require AGOODSIGN_PLUGIN_DIR . 'plugin-update-checker/plugin-update-checker.php';
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
+$agoodsignUpdateChecker = PucFactory::buildUpdateChecker(
+	'https://github.com/AGoodId/agoodsign/',
+	__FILE__,
+	'agoodsign'
+);
+$agoodsignUpdateChecker->setBranch( 'main' );
+$agoodsignUpdateChecker->getVcsApi()->enableReleaseAssets();
 
 /**
  * Load plugin classes.

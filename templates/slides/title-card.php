@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $has_bg_image = ! empty( $slide['image_url'] );
 ?>
 <div class="agoodsign-slide agoodsign-slide--title-card"
-	style="<?php if ( ! $has_bg_image ) : ?>background-color: <?php echo esc_attr( $slide['bg_color'] ); ?><?php endif; ?>"
+	style="color: <?php echo esc_attr( $slide['text_color'] ?: '#ffffff' ); ?>;<?php if ( ! $has_bg_image ) : ?> background-color: <?php echo esc_attr( $slide['bg_color'] ); ?><?php endif; ?>"
 	data-duration="<?php echo absint( $slide['duration'] ); ?>"
 	data-animation="<?php echo esc_attr( $slide['animation'] ); ?>">
 

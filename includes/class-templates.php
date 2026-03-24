@@ -131,6 +131,7 @@ class AGoodSign_Templates {
 			'overlay_position' => get_post_meta( $post_id, '_agoodsign_overlay_position', true ) ?: 'bottom',
 			'bg_color'         => get_post_meta( $post_id, '_agoodsign_bg_color', true ) ?: '#000000',
 			'split_image_side' => get_post_meta( $post_id, '_agoodsign_split_image_side', true ) ?: 'left',
+			'text_color'       => get_post_meta( $post_id, '_agoodsign_text_color', true ) ?: '#ffffff',
 			'pin_enabled'      => (bool) get_post_meta( $post_id, '_agoodsign_pin_enabled', true ),
 			'pin_icon'         => get_post_meta( $post_id, '_agoodsign_pin_icon', true ) ?: 'map-pin',
 			'pin_x'            => floatval( get_post_meta( $post_id, '_agoodsign_pin_x', true ) ?: 50 ),

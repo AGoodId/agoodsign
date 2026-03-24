@@ -20,6 +20,7 @@ $is_youtube = preg_match( '/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-
 $is_vimeo   = preg_match( '/vimeo\.com\/([0-9]+)/', $video_url, $vm_match );
 ?>
 <div class="agoodsign-slide agoodsign-slide--video"
+	style="color: <?php echo esc_attr( $slide['text_color'] ?: '#ffffff' ); ?>"
 	data-duration="<?php echo absint( $slide['duration'] ); ?>"
 	data-animation="<?php echo esc_attr( $slide['animation'] ); ?>">
 

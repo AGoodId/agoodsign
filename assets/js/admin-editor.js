@@ -17,6 +17,7 @@ document.addEventListener( 'alpine:init', () => {
 			bg_color: initialData.bg_color || '#000000',
 			overlay_position: initialData.overlay_position || 'bottom',
 			split_image_side: initialData.split_image_side || 'left',
+			text_color: initialData.text_color || '#ffffff',
 			pin_enabled: initialData.pin_enabled || false,
 			pin_icon: initialData.pin_icon || 'map-pin',
 			pin_x: initialData.pin_x ?? 50,
@@ -119,7 +120,7 @@ body {
 	overflow: hidden;
 	background: #000;
 	font-family: ${fontBody};
-	color: #fff;
+	color: ${this.escHtml( s.text_color ) || '#fff'};
 }
 .slide {
 	position: relative;
