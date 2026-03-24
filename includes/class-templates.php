@@ -128,6 +128,7 @@ class AGoodSign_Templates {
 			'media_type'       => get_post_meta( $post_id, '_agoodsign_media_type', true ) ?: 'image',
 			'image_url'        => $image_url ?: '',
 			'video_url'        => get_post_meta( $post_id, '_agoodsign_video_url', true ) ?: '',
+			'video_fit'        => get_post_meta( $post_id, '_agoodsign_video_fit', true ) ?: 'cover',
 			'overlay_position' => get_post_meta( $post_id, '_agoodsign_overlay_position', true ) ?: 'bottom',
 			'overlay_color'    => get_post_meta( $post_id, '_agoodsign_overlay_color', true ) ?: '#000000',
 			'overlay_opacity'  => floatval( get_post_meta( $post_id, '_agoodsign_overlay_opacity', true ) ?: 0.6 ),

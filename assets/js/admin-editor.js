@@ -12,6 +12,7 @@ document.addEventListener( 'alpine:init', () => {
 			image_url: initialData.image_url || '',
 			image_id: initialData.image_id || 0,
 			video_url: initialData.video_url || '',
+			video_fit: initialData.video_fit || 'cover',
 			animation: initialData.animation || 'fade-in',
 			duration: initialData.duration || 10,
 			bg_color: initialData.bg_color || '#000000',
@@ -253,14 +254,33 @@ body {
 	margin: 30px auto;
 }
 
-/* Video */
-.video-embed, .video-el {
+/* Video — native element */
+.video-el {
 	position: absolute;
 	inset: 0;
 	width: 100%;
 	height: 100%;
-	object-fit: cover;
 	border: 0;
+}
+.video-el--cover { object-fit: cover; }
+.video-el--contain { object-fit: contain; background: #000; }
+
+/* Video — iframe embed (cover mode: scale up to fill) */
+.video-embed {
+	position: absolute;
+	border: 0;
+}
+.video-embed--contain {
+	inset: 0;
+	width: 100%;
+	height: 100%;
+}
+.video-embed--cover {
+	top: 50%;
+	left: 50%;
+	width: 350%;
+	height: 200%;
+	transform: translate(-50%, -50%);
 }
 .video-placeholder {
 	position: absolute;
@@ -378,17 +398,18 @@ body {
 
 		buildVideo( s ) {
 			let videoEl = '<div class="video-placeholder">&#9654; Video Preview</div>';
+			const fit = s.video_fit || 'cover';
 
 			if ( s.video_url ) {
 				const ytMatch = s.video_url.match( /(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/ );
 				const vmMatch = s.video_url.match( /vimeo\.com\/([0-9]+)/ );
 
 				if ( ytMatch ) {
-					videoEl = `<iframe class="video-embed" src="https://www.youtube.com/embed/${ytMatch[1]}?autoplay=0&mute=1&controls=0&showinfo=0" allow="autoplay"></iframe>`;
+					videoEl = `<iframe class="video-embed video-embed--${fit}" src="https://www.youtube.com/embed/${ytMatch[1]}?autoplay=0&mute=1&controls=0&showinfo=0" allow="autoplay"></iframe>`;
 				} else if ( vmMatch ) {
-					videoEl = `<iframe class="video-embed" src="https://player.vimeo.com/video/${vmMatch[1]}?muted=1&background=1" allow="autoplay"></iframe>`;
+					videoEl = `<iframe class="video-embed video-embed--${fit}" src="https://player.vimeo.com/video/${vmMatch[1]}?muted=1&background=1" allow="autoplay"></iframe>`;
 				} else {
-					videoEl = `<video class="video-el" src="${this.escHtml( s.video_url )}" muted playsinline></video>`;
+					videoEl = `<video class="video-el video-el--${fit}" src="${this.escHtml( s.video_url )}" muted playsinline></video>`;
 				}
 			}
 

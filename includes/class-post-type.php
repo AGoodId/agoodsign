@@ -131,6 +131,11 @@ class AGoodSign_Post_Type {
 				'default'           => '',
 				'sanitize_callback' => 'esc_url_raw',
 			),
+			'_agoodsign_video_fit'        => array(
+				'type'              => 'string',
+				'default'           => 'cover',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
 			'_agoodsign_overlay_position' => array(
 				'type'              => 'string',
 				'default'           => 'bottom',

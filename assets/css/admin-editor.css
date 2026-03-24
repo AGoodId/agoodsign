@@ -250,6 +250,9 @@
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
+	position: sticky;
+	top: 40px;
+	align-self: start;
 }
 
 .agoodsign-editor__preview-label {

@@ -143,15 +143,36 @@ body {
 	margin: 30px auto;
 }
 
-/* === Video template === */
-.agoodsign-slide__video,
-.agoodsign-slide__video-embed {
+/* === Video template — native video element === */
+.agoodsign-slide__video {
 	position: absolute;
 	inset: 0;
 	width: 100%;
 	height: 100%;
-	object-fit: cover;
 	border: 0;
+}
+
+.agoodsign-slide__video--cover { object-fit: cover; }
+.agoodsign-slide__video--contain { object-fit: contain; background: #000; }
+
+/* === Video template — iframe embed === */
+.agoodsign-slide__video-embed {
+	position: absolute;
+	border: 0;
+}
+
+.agoodsign-slide__video-embed--contain {
+	inset: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.agoodsign-slide__video-embed--cover {
+	top: 50%;
+	left: 50%;
+	width: 350%;
+	height: 200%;
+	transform: translate(-50%, -50%);
 }
 
 /* === Title Card template === */

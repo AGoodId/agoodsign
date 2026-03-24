@@ -196,6 +196,15 @@ class AGoodSign_Meta_Box {
 							placeholder="<?php esc_attr_e( 'https://example.com/video.mp4 or YouTube/Vimeo URL', 'agoodsign' ); ?>">
 					</div>
 
+					<!-- Video fit (shown for video template) -->
+					<div class="agoodsign-editor__section" x-show="needsVideo" x-transition>
+						<label class="agoodsign-editor__label" for="agoodsign-video-fit"><?php esc_html_e( 'Video Display', 'agoodsign' ); ?></label>
+						<select id="agoodsign-video-fit" x-model="slide.video_fit" class="agoodsign-editor__select">
+							<option value="cover"><?php esc_html_e( 'Full bleed (crop to fill)', 'agoodsign' ); ?></option>
+							<option value="contain"><?php esc_html_e( 'Fit (show entire video)', 'agoodsign' ); ?></option>
+						</select>
+					</div>
+
 					<!-- Background color (shown for templates that need it) -->
 					<div class="agoodsign-editor__section" x-show="needsBgColor" x-transition>
 						<label class="agoodsign-editor__label" for="agoodsign-bg-color"><?php esc_html_e( 'Background Color', 'agoodsign' ); ?></label>
@@ -405,6 +414,7 @@ class AGoodSign_Meta_Box {
 			<input type="hidden" name="_agoodsign_body_text" :value="slide.body_text">
 			<input type="hidden" name="_agoodsign_image_id" :value="slide.image_id || 0">
 			<input type="hidden" name="_agoodsign_video_url" :value="slide.video_url">
+			<input type="hidden" name="_agoodsign_video_fit" :value="slide.video_fit">
 			<input type="hidden" name="_agoodsign_animation" :value="slide.animation">
 			<input type="hidden" name="_agoodsign_duration" :value="slide.duration">
 			<input type="hidden" name="_agoodsign_bg_color" :value="slide.bg_color">
@@ -453,6 +463,7 @@ class AGoodSign_Meta_Box {
 			'_agoodsign_body_text'        => 'wp_kses_post',
 			'_agoodsign_image_id'         => 'absint',
 			'_agoodsign_video_url'        => 'esc_url_raw',
+			'_agoodsign_video_fit'        => 'sanitize_text_field',
 			'_agoodsign_animation'        => 'sanitize_text_field',
 			'_agoodsign_duration'         => 'absint',
 			'_agoodsign_bg_color'         => 'sanitize_hex_color',
