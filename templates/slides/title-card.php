@@ -38,4 +38,6 @@ $has_bg_image = ! empty( $slide['image_url'] );
 
 		<div class="agoodsign-title-card__border-bottom"></div>
 	</div>
+
+	<?php include AGOODSIGN_PLUGIN_DIR . 'templates/slides/partials/pin.php'; ?>
 </div>

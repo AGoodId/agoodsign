@@ -57,9 +57,17 @@ class AGoodSign_Meta_Box {
 		);
 
 		wp_enqueue_script(
+			'agoodsign-lucide-icons',
+			AGOODSIGN_PLUGIN_URL . 'assets/js/lucide-icons.js',
+			array(),
+			AGOODSIGN_VERSION,
+			true
+		);
+
+		wp_enqueue_script(
 			'agoodsign-admin-editor',
 			AGOODSIGN_PLUGIN_URL . 'assets/js/admin-editor.js',
-			array( 'alpinejs', 'wp-i18n' ),
+			array( 'alpinejs', 'agoodsign-lucide-icons', 'wp-i18n' ),
 			AGOODSIGN_VERSION,
 			true
 		);
@@ -233,6 +241,99 @@ class AGoodSign_Meta_Box {
 							max="300"
 							step="1">
 					</div>
+
+					<!-- Pin / Marker -->
+					<div class="agoodsign-editor__section agoodsign-editor__pin-section">
+						<div class="agoodsign-editor__pin-header">
+							<label class="agoodsign-editor__label">
+								<input type="checkbox" x-model="slide.pin_enabled">
+								<?php esc_html_e( 'Pin / Marker', 'agoodsign' ); ?>
+							</label>
+						</div>
+
+						<div x-show="slide.pin_enabled" x-transition class="agoodsign-editor__pin-fields">
+
+							<!-- Icon search -->
+							<div class="agoodsign-editor__section">
+								<label class="agoodsign-editor__label"><?php esc_html_e( 'Icon', 'agoodsign' ); ?></label>
+								<div class="agoodsign-editor__icon-picker" @click.outside="pinIconDropdownOpen = false">
+									<div class="agoodsign-editor__icon-current" @click="pinIconDropdownOpen = !pinIconDropdownOpen">
+										<span x-html="getPinIconSvg(slide.pin_icon, 20, slide.pin_color)"></span>
+										<span x-text="slide.pin_icon"></span>
+										<span class="dashicons dashicons-arrow-down-alt2" style="font-size:14px;width:14px;height:14px"></span>
+									</div>
+									<div class="agoodsign-editor__icon-dropdown" x-show="pinIconDropdownOpen" x-transition>
+										<input type="text"
+											x-model="pinIconSearch"
+											class="agoodsign-editor__input widefat"
+											placeholder="<?php esc_attr_e( 'Search icons... (e.g. globe, arrow, coffee)', 'agoodsign' ); ?>"
+											@focus="pinIconDropdownOpen = true">
+										<div class="agoodsign-editor__icon-grid">
+											<template x-for="icon in filteredIcons.slice(0, 40)" :key="icon.name">
+												<button type="button"
+													class="agoodsign-editor__icon-btn"
+													:class="{ 'is-active': slide.pin_icon === icon.name }"
+													@click="selectPinIcon(icon.name)"
+													:title="icon.name">
+													<span x-html="getPinIconSvg(icon.name, 20, slide.pin_icon === icon.name ? slide.pin_color : '#666')"></span>
+													<span class="agoodsign-editor__icon-name" x-text="icon.name"></span>
+												</button>
+											</template>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Pin color + size -->
+							<div class="agoodsign-editor__section agoodsign-editor__pin-row">
+								<div>
+									<label class="agoodsign-editor__label"><?php esc_html_e( 'Color', 'agoodsign' ); ?></label>
+									<div class="agoodsign-editor__color-row">
+										<input type="color" x-model="slide.pin_color" class="agoodsign-editor__color-input">
+										<input type="text" x-model="slide.pin_color" class="agoodsign-editor__color-text" maxlength="7">
+									</div>
+								</div>
+								<div>
+									<label class="agoodsign-editor__label"><?php esc_html_e( 'Size (px)', 'agoodsign' ); ?></label>
+									<input type="number" x-model.number="slide.pin_size" class="agoodsign-editor__input agoodsign-editor__input--small" min="16" max="128" step="4">
+								</div>
+							</div>
+
+							<!-- Pin animation -->
+							<div class="agoodsign-editor__section">
+								<label class="agoodsign-editor__label"><?php esc_html_e( 'Pin Animation', 'agoodsign' ); ?></label>
+								<select x-model="slide.pin_animation" class="agoodsign-editor__select">
+									<option value="pulse"><?php esc_html_e( 'Pulse', 'agoodsign' ); ?></option>
+									<option value="bounce"><?php esc_html_e( 'Bounce', 'agoodsign' ); ?></option>
+									<option value="glow"><?php esc_html_e( 'Glow', 'agoodsign' ); ?></option>
+									<option value="none"><?php esc_html_e( 'None (static)', 'agoodsign' ); ?></option>
+								</select>
+							</div>
+
+							<!-- Pin label -->
+							<div class="agoodsign-editor__section">
+								<label class="agoodsign-editor__label"><?php esc_html_e( 'Label (optional)', 'agoodsign' ); ?></label>
+								<input type="text" x-model="slide.pin_label" class="agoodsign-editor__input widefat"
+									placeholder="<?php esc_attr_e( 'e.g. You are here', 'agoodsign' ); ?>">
+							</div>
+
+							<!-- Pin position -->
+							<div class="agoodsign-editor__section">
+								<label class="agoodsign-editor__label"><?php esc_html_e( 'Position', 'agoodsign' ); ?></label>
+								<div class="agoodsign-editor__pin-row">
+									<div>
+										<label class="agoodsign-editor__label" style="font-weight:normal">X: <span x-text="Math.round(slide.pin_x)"></span>%</label>
+										<input type="range" x-model.number="slide.pin_x" min="0" max="100" step="0.5" style="width:100%">
+									</div>
+									<div>
+										<label class="agoodsign-editor__label" style="font-weight:normal">Y: <span x-text="Math.round(slide.pin_y)"></span>%</label>
+										<input type="range" x-model.number="slide.pin_y" min="0" max="100" step="0.5" style="width:100%">
+									</div>
+								</div>
+								<p class="description"><?php esc_html_e( 'Use sliders or click on the preview to position the pin.', 'agoodsign' ); ?></p>
+							</div>
+						</div>
+					</div>
 				</div>
 
 				<!-- Right column: Preview -->
@@ -263,6 +364,14 @@ class AGoodSign_Meta_Box {
 			<input type="hidden" name="_agoodsign_overlay_position" :value="slide.overlay_position">
 			<input type="hidden" name="_agoodsign_media_type" :value="slide.template === 'video' ? 'video' : 'image'">
 			<input type="hidden" name="_agoodsign_split_image_side" :value="slide.split_image_side">
+			<input type="hidden" name="_agoodsign_pin_enabled" :value="slide.pin_enabled ? '1' : '0'">
+			<input type="hidden" name="_agoodsign_pin_icon" :value="slide.pin_icon">
+			<input type="hidden" name="_agoodsign_pin_x" :value="slide.pin_x">
+			<input type="hidden" name="_agoodsign_pin_y" :value="slide.pin_y">
+			<input type="hidden" name="_agoodsign_pin_color" :value="slide.pin_color">
+			<input type="hidden" name="_agoodsign_pin_size" :value="slide.pin_size">
+			<input type="hidden" name="_agoodsign_pin_label" :value="slide.pin_label">
+			<input type="hidden" name="_agoodsign_pin_animation" :value="slide.pin_animation">
 		</div>
 		<?php
 	}
@@ -298,6 +407,14 @@ class AGoodSign_Meta_Box {
 			'_agoodsign_overlay_position' => 'sanitize_text_field',
 			'_agoodsign_media_type'       => 'sanitize_text_field',
 			'_agoodsign_split_image_side' => 'sanitize_text_field',
+			'_agoodsign_pin_enabled'      => 'rest_sanitize_boolean',
+			'_agoodsign_pin_icon'         => 'sanitize_text_field',
+			'_agoodsign_pin_x'            => 'floatval',
+			'_agoodsign_pin_y'            => 'floatval',
+			'_agoodsign_pin_color'        => 'sanitize_hex_color',
+			'_agoodsign_pin_size'         => 'absint',
+			'_agoodsign_pin_label'        => 'sanitize_text_field',
+			'_agoodsign_pin_animation'    => 'sanitize_text_field',
 		);
 
 		foreach ( $fields as $key => $sanitize_fn ) {

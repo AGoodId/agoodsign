@@ -28,4 +28,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<p class="agoodsign-slide__body"><?php echo wp_kses_post( $slide['body_text'] ); ?></p>
 		<?php endif; ?>
 	</div>
+
+	<?php include AGOODSIGN_PLUGIN_DIR . 'templates/slides/partials/pin.php'; ?>
 </div>

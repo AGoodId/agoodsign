@@ -252,6 +252,86 @@ body {
 	to   { transform: scale(1.12) translate(-2%, -1%); }
 }
 
+/* === Pin / Marker === */
+
+.agoodsign-pin {
+	position: absolute;
+	z-index: 10;
+	transform: translate(-50%, -50%);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	pointer-events: none;
+}
+
+.agoodsign-pin__icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+}
+
+.agoodsign-pin__label {
+	margin-top: 8px;
+	padding: 6px 16px;
+	background: rgba(0, 0, 0, 0.7);
+	border-radius: 20px;
+	font-size: 24px;
+	font-weight: 600;
+	white-space: nowrap;
+	color: #fff;
+}
+
+/* Pulse */
+.agoodsign-pin--pulse .agoodsign-pin__icon {
+	animation: agoodsign-pin-pulse 2s ease-in-out infinite;
+}
+
+@keyframes agoodsign-pin-pulse {
+	0%, 100% { transform: scale(1); }
+	50%      { transform: scale(1.15); }
+}
+
+.agoodsign-pin--pulse::before {
+	content: '';
+	position: absolute;
+	width: var(--pin-size);
+	height: var(--pin-size);
+	border-radius: 50%;
+	animation: agoodsign-pin-ring 2s ease-out infinite;
+}
+
+@keyframes agoodsign-pin-ring {
+	0%   { box-shadow: 0 0 0 0 var(--pin-color); opacity: 0.6; }
+	100% { box-shadow: 0 0 0 30px var(--pin-color); opacity: 0; }
+}
+
+/* Bounce */
+.agoodsign-pin--bounce .agoodsign-pin__icon {
+	animation: agoodsign-pin-bounce 1s ease-in-out infinite;
+}
+
+@keyframes agoodsign-pin-bounce {
+	0%, 100% { transform: translateY(0); }
+	50%      { transform: translateY(-16px); }
+}
+
+/* Glow */
+.agoodsign-pin--glow .agoodsign-pin__icon {
+	animation: agoodsign-pin-glow 2s ease-in-out infinite;
+}
+
+@keyframes agoodsign-pin-glow {
+	0%, 100% { filter: drop-shadow(0 0 8px var(--pin-color)) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4)); }
+	50%      { filter: drop-shadow(0 0 24px var(--pin-color)) drop-shadow(0 0 48px var(--pin-color)) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4)); }
+}
+
+/* None */
+.agoodsign-pin--none .agoodsign-pin__icon {
+	filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+}
+
 /* Error state */
 .agoodsign-player__empty {
 	display: flex;

@@ -51,4 +51,6 @@ $is_vimeo   = preg_match( '/vimeo\.com\/([0-9]+)/', $video_url, $vm_match );
 			<?php endif; ?>
 		</div>
 	<?php endif; ?>
+
+	<?php include AGOODSIGN_PLUGIN_DIR . 'templates/slides/partials/pin.php'; ?>
 </div>

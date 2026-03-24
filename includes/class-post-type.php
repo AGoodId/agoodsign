@@ -151,6 +151,46 @@ class AGoodSign_Post_Type {
 				'default'           => 'left',
 				'sanitize_callback' => 'sanitize_text_field',
 			),
+			'_agoodsign_pin_enabled'      => array(
+				'type'              => 'boolean',
+				'default'           => false,
+				'sanitize_callback' => 'rest_sanitize_boolean',
+			),
+			'_agoodsign_pin_icon'         => array(
+				'type'              => 'string',
+				'default'           => 'map-pin',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
+			'_agoodsign_pin_x'            => array(
+				'type'              => 'number',
+				'default'           => 50,
+				'sanitize_callback' => 'floatval',
+			),
+			'_agoodsign_pin_y'            => array(
+				'type'              => 'number',
+				'default'           => 50,
+				'sanitize_callback' => 'floatval',
+			),
+			'_agoodsign_pin_color'        => array(
+				'type'              => 'string',
+				'default'           => '#ef4444',
+				'sanitize_callback' => 'sanitize_hex_color',
+			),
+			'_agoodsign_pin_size'         => array(
+				'type'              => 'integer',
+				'default'           => 48,
+				'sanitize_callback' => 'absint',
+			),
+			'_agoodsign_pin_label'        => array(
+				'type'              => 'string',
+				'default'           => '',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
+			'_agoodsign_pin_animation'    => array(
+				'type'              => 'string',
+				'default'           => 'pulse',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
 		);
 
 		foreach ( $meta_fields as $key => $args ) {

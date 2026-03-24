@@ -131,6 +131,14 @@ class AGoodSign_Templates {
 			'overlay_position' => get_post_meta( $post_id, '_agoodsign_overlay_position', true ) ?: 'bottom',
 			'bg_color'         => get_post_meta( $post_id, '_agoodsign_bg_color', true ) ?: '#000000',
 			'split_image_side' => get_post_meta( $post_id, '_agoodsign_split_image_side', true ) ?: 'left',
+			'pin_enabled'      => (bool) get_post_meta( $post_id, '_agoodsign_pin_enabled', true ),
+			'pin_icon'         => get_post_meta( $post_id, '_agoodsign_pin_icon', true ) ?: 'map-pin',
+			'pin_x'            => floatval( get_post_meta( $post_id, '_agoodsign_pin_x', true ) ?: 50 ),
+			'pin_y'            => floatval( get_post_meta( $post_id, '_agoodsign_pin_y', true ) ?: 50 ),
+			'pin_color'        => get_post_meta( $post_id, '_agoodsign_pin_color', true ) ?: '#ef4444',
+			'pin_size'         => absint( get_post_meta( $post_id, '_agoodsign_pin_size', true ) ?: 48 ),
+			'pin_label'        => get_post_meta( $post_id, '_agoodsign_pin_label', true ) ?: '',
+			'pin_animation'    => get_post_meta( $post_id, '_agoodsign_pin_animation', true ) ?: 'pulse',
 		);
 	}
 

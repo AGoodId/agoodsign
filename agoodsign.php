@@ -32,6 +32,7 @@ require_once AGOODSIGN_PLUGIN_DIR . 'includes/class-meta-box.php';
 require_once AGOODSIGN_PLUGIN_DIR . 'includes/class-player.php';
 require_once AGOODSIGN_PLUGIN_DIR . 'includes/class-screens.php';
 require_once AGOODSIGN_PLUGIN_DIR . 'includes/class-fonts.php';
+require_once AGOODSIGN_PLUGIN_DIR . 'includes/class-icons.php';
 require_once AGOODSIGN_PLUGIN_DIR . 'includes/class-rest-api.php';
 
 /**

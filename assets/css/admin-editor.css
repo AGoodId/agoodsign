@@ -242,6 +242,147 @@
 	pointer-events: none;
 }
 
+/* Pin / Marker section */
+.agoodsign-editor__pin-section {
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	padding: 16px;
+	background: #f9f9f9;
+}
+
+.agoodsign-editor__pin-header {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.agoodsign-editor__pin-header label {
+	font-weight: 600;
+	font-size: 13px;
+	color: #1d2327;
+	cursor: pointer;
+}
+
+.agoodsign-editor__pin-fields {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	margin-top: 14px;
+}
+
+/* Icon picker */
+.agoodsign-editor__icon-picker {
+	position: relative;
+}
+
+.agoodsign-editor__icon-current {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 12px;
+	border: 1px solid #8c8f94;
+	border-radius: 4px;
+	background: #fff;
+	cursor: pointer;
+	font-size: 13px;
+	transition: border-color 0.15s;
+}
+
+.agoodsign-editor__icon-current:hover {
+	border-color: #2271b1;
+}
+
+.agoodsign-editor__icon-current svg {
+	flex-shrink: 0;
+}
+
+.agoodsign-editor__icon-dropdown {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	z-index: 100;
+	width: 320px;
+	max-height: 280px;
+	margin-top: 4px;
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+
+.agoodsign-editor__icon-dropdown input {
+	width: 100%;
+	padding: 10px 12px;
+	border: none;
+	border-bottom: 1px solid #dcdcde;
+	font-size: 13px;
+	outline: none;
+}
+
+.agoodsign-editor__icon-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+	gap: 4px;
+	padding: 8px;
+	overflow-y: auto;
+	flex: 1;
+}
+
+.agoodsign-editor__icon-btn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+	padding: 8px 4px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	background: none;
+	cursor: pointer;
+	transition: all 0.12s ease;
+}
+
+.agoodsign-editor__icon-btn:hover {
+	background: #f0f6fc;
+	border-color: #2271b1;
+}
+
+.agoodsign-editor__icon-name {
+	font-size: 9px;
+	color: #757575;
+	text-align: center;
+	line-height: 1.2;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	max-width: 100%;
+}
+
+/* Pin row — inline label + control */
+.agoodsign-editor__pin-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.agoodsign-editor__pin-row label {
+	font-size: 13px;
+	font-weight: 500;
+	color: #1d2327;
+	min-width: 70px;
+}
+
+.agoodsign-editor__pin-row input[type="range"] {
+	flex: 1;
+}
+
+.agoodsign-editor__pin-row .agoodsign-editor__input--small {
+	width: 60px;
+	text-align: center;
+}
+
 /* Smooth transitions for conditional fields */
 [x-transition] {
 	transition: opacity 0.2s ease, transform 0.2s ease;

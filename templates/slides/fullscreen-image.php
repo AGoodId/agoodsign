@@ -33,4 +33,6 @@ $has_text      = ! empty( $slide['heading'] ) || ! empty( $slide['body_text'] );
 			<?php endif; ?>
 		</div>
 	<?php endif; ?>
+
+	<?php include AGOODSIGN_PLUGIN_DIR . 'templates/slides/partials/pin.php'; ?>
 </div>

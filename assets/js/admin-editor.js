@@ -17,6 +17,34 @@ document.addEventListener( 'alpine:init', () => {
 			bg_color: initialData.bg_color || '#000000',
 			overlay_position: initialData.overlay_position || 'bottom',
 			split_image_side: initialData.split_image_side || 'left',
+			pin_enabled: initialData.pin_enabled || false,
+			pin_icon: initialData.pin_icon || 'map-pin',
+			pin_x: initialData.pin_x ?? 50,
+			pin_y: initialData.pin_y ?? 50,
+			pin_color: initialData.pin_color || '#ef4444',
+			pin_size: initialData.pin_size || 48,
+			pin_label: initialData.pin_label || '',
+			pin_animation: initialData.pin_animation || 'pulse',
+		},
+
+		// Pin icon search state.
+		pinIconSearch: '',
+		pinIconDropdownOpen: false,
+
+		get filteredIcons() {
+			if ( ! window.AGoodSignIcons ) return [];
+			return window.AGoodSignIcons.search( this.pinIconSearch );
+		},
+
+		selectPinIcon( name ) {
+			this.slide.pin_icon = name;
+			this.pinIconSearch = '';
+			this.pinIconDropdownOpen = false;
+		},
+
+		getPinIconSvg( name, size, color ) {
+			if ( ! window.AGoodSignIcons ) return '';
+			return window.AGoodSignIcons.render( name || 'map-pin', size || 24, color || '#ef4444' );
 		},
 
 		/**
@@ -231,6 +259,75 @@ body {
 	color: #555;
 	font-size: 48px;
 }
+
+/* Pin / Marker */
+.pin {
+	position: absolute;
+	z-index: 10;
+	transform: translate(-50%, -50%);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	pointer-events: none;
+}
+.pin__icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+}
+.pin__label {
+	margin-top: 8px;
+	padding: 6px 16px;
+	background: rgba(0,0,0,0.7);
+	border-radius: 20px;
+	font-size: 24px;
+	font-weight: 600;
+	white-space: nowrap;
+	color: #fff;
+}
+
+/* Pin animations */
+.pin--pulse .pin__icon {
+	animation: pin-pulse 2s ease-in-out infinite;
+}
+@keyframes pin-pulse {
+	0%, 100% { transform: scale(1); }
+	50% { transform: scale(1.15); }
+}
+.pin--pulse::before {
+	content: '';
+	position: absolute;
+	width: var(--pin-size);
+	height: var(--pin-size);
+	border-radius: 50%;
+	animation: pin-ring 2s ease-out infinite;
+}
+@keyframes pin-ring {
+	0% { box-shadow: 0 0 0 0 var(--pin-color); opacity: 0.6; }
+	100% { box-shadow: 0 0 0 30px var(--pin-color); opacity: 0; }
+}
+
+.pin--bounce .pin__icon {
+	animation: pin-bounce 1s ease-in-out infinite;
+}
+@keyframes pin-bounce {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(-16px); }
+}
+
+.pin--glow .pin__icon {
+	animation: pin-glow 2s ease-in-out infinite;
+}
+@keyframes pin-glow {
+	0%, 100% { filter: drop-shadow(0 0 8px var(--pin-color)) drop-shadow(0 2px 8px rgba(0,0,0,0.4)); }
+	50% { filter: drop-shadow(0 0 24px var(--pin-color)) drop-shadow(0 0 48px var(--pin-color)) drop-shadow(0 2px 8px rgba(0,0,0,0.4)); }
+}
+
+.pin--none .pin__icon {
+	filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+}
 </style>
 </head>
 <body>${slideHtml}</body>
@@ -239,28 +336,30 @@ body {
 
 		buildFullscreenImage( s ) {
 			const bg = s.image_url ? `<div class="slide__bg" style="background-image:url('${this.escHtml( s.image_url )}')"></div>` : '';
-			return `<div class="slide">${bg}${this.buildOverlay( s )}</div>`;
+			return `<div class="slide">${bg}${this.buildOverlay( s )}${this.buildPin( s )}</div>`;
 		},
 
 		buildSplit( s ) {
 			const dir = s.split_image_side === 'right' ? ' split--image-right' : '';
 			const bg = s.image_url ? `<div class="slide__bg" style="background-image:url('${this.escHtml( s.image_url )}')"></div>` : '';
-			return `<div class="split${dir}">
+			return `<div class="split${dir}" style="position:relative">
 				<div class="split__image">${bg}</div>
 				<div class="split__text" style="background-color:${this.escHtml( s.bg_color )}">
 					${s.heading ? `<h2 class="heading">${this.escHtml( s.heading )}</h2>` : ''}
 					${s.body_text ? `<p class="body-text">${this.escHtml( s.body_text )}</p>` : ''}
 				</div>
+				${this.buildPin( s )}
 			</div>`;
 		},
 
 		buildTextOnly( s ) {
-			return `<div class="text-only" style="background-color:${this.escHtml( s.bg_color )}">
+			return `<div class="text-only" style="background-color:${this.escHtml( s.bg_color )};position:relative">
 				<div>
 					${s.heading ? `<h2 class="heading">${this.escHtml( s.heading )}</h2>` : ''}
 					<div class="text-only__divider"></div>
 					${s.body_text ? `<p class="body-text">${this.escHtml( s.body_text )}</p>` : ''}
 				</div>
+				${this.buildPin( s )}
 			</div>`;
 		},
 
@@ -280,7 +379,7 @@ body {
 				}
 			}
 
-			return `<div class="slide">${videoEl}${this.buildOverlay( s )}</div>`;
+			return `<div class="slide">${videoEl}${this.buildOverlay( s )}${this.buildPin( s )}</div>`;
 		},
 
 		buildTitleCard( s ) {
@@ -298,6 +397,7 @@ body {
 					${s.body_text ? `<p class="body-text title-card__subtitle">${this.escHtml( s.body_text )}</p>` : ''}
 					<div class="title-card__border-bottom"></div>
 				</div>
+				${this.buildPin( s )}
 			</div>`;
 		},
 
@@ -307,6 +407,16 @@ body {
 			return `<div class="overlay overlay--${pos}">
 				${s.heading ? `<h2 class="heading">${this.escHtml( s.heading )}</h2>` : ''}
 				${s.body_text ? `<p class="body-text">${this.escHtml( s.body_text )}</p>` : ''}
+			</div>`;
+		},
+
+		buildPin( s ) {
+			if ( ! s.pin_enabled ) return '';
+			const svg = this.getPinIconSvg( s.pin_icon, s.pin_size, s.pin_color );
+			const label = s.pin_label ? `<span class="pin__label">${this.escHtml( s.pin_label )}</span>` : '';
+			return `<div class="pin pin--${this.escHtml( s.pin_animation )}" style="left:${s.pin_x}%;top:${s.pin_y}%;--pin-color:${this.escHtml( s.pin_color )};--pin-size:${s.pin_size}px">
+				<div class="pin__icon">${svg}</div>
+				${label}
 			</div>`;
 		},
 
