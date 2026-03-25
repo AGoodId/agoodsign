@@ -132,6 +132,7 @@ class AGoodSign_Templates {
 			'heading'          => get_post_meta( $post_id, '_agoodsign_heading', true ) ?: '',
 			'body_text'        => get_post_meta( $post_id, '_agoodsign_body_text', true ) ?: '',
 			'media_type'       => get_post_meta( $post_id, '_agoodsign_media_type', true ) ?: 'image',
+			'image_id'         => absint( $image_id ),
 			'image_url'        => $image_url ?: '',
 			'video_url'        => get_post_meta( $post_id, '_agoodsign_video_url', true ) ?: '',
 			'video_fit'        => get_post_meta( $post_id, '_agoodsign_video_fit', true ) ?: 'cover',
