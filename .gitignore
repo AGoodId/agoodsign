@@ -11,6 +11,7 @@ Thumbs.db
 # Composer
 vendor/
 !assets/js/vendor/
+!plugin-update-checker/vendor/
 composer.lock
 
 # Node (if needed later)
