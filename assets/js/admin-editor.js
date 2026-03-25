@@ -35,6 +35,8 @@ document.addEventListener( 'alpine:init', () => {
 			image_size: initialData.image_size || 60,
 			image_position: initialData.image_position || 'top',
 			image_radius: initialData.image_radius || 0,
+			heading_size: initialData.heading_size || 0,
+			body_size: initialData.body_size || 0,
 		},
 
 		// Pin icon search state.
@@ -176,13 +178,13 @@ body {
 .overlay--bottom { bottom: 0; }
 .heading {
 	font-family: ${fontHeading};
-	font-size: 72px;
+	font-size: ${s.heading_size ? s.heading_size + 'px' : '72px'};
 	font-weight: 700;
 	line-height: 1.15;
 	margin-bottom: 20px;
 }
 .body-text {
-	font-size: 40px;
+	font-size: ${s.body_size ? s.body_size + 'px' : '40px'};
 	line-height: 1.4;
 	opacity: 0.9;
 }
@@ -537,6 +539,8 @@ body {
 			escaped = escaped.replace( /&lt;\/strong&gt;/gi, '</strong>' );
 			escaped = escaped.replace( /&lt;em&gt;/gi, '<em>' );
 			escaped = escaped.replace( /&lt;\/em&gt;/gi, '</em>' );
+			// Convert plain newlines to <br>.
+			escaped = escaped.replace( /\n/g, '<br>' );
 			return escaped;
 		},
 

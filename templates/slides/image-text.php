@@ -19,10 +19,13 @@ $image_radius   = absint( $slide['image_radius'] ?? 0 );
 $bg_color       = $slide['bg_color'] ?: '#000000';
 $text_color     = $slide['text_color'] ?: '#ffffff';
 
-$layout_class = 'agoodsign-image-text--image-' . esc_attr( $image_position );
+$layout_class  = 'agoodsign-image-text--image-' . esc_attr( $image_position );
+$font_styles   = '';
+$font_styles  .= ! empty( $slide['heading_size'] ) ? '--agoodsign-heading-size:' . absint( $slide['heading_size'] ) . 'px;' : '';
+$font_styles  .= ! empty( $slide['body_size'] ) ? '--agoodsign-body-size:' . absint( $slide['body_size'] ) . 'px;' : '';
 ?>
 <div class="agoodsign-slide agoodsign-slide--image-text <?php echo esc_attr( $layout_class ); ?>"
-	style="color: <?php echo esc_attr( $text_color ); ?>; background-color: <?php echo esc_attr( $bg_color ); ?>"
+	style="color: <?php echo esc_attr( $text_color ); ?>; background-color: <?php echo esc_attr( $bg_color ); ?>; <?php echo $font_styles; ?>"
 	data-duration="<?php echo absint( $slide['duration'] ); ?>"
 	data-animation="<?php echo esc_attr( $slide['animation'] ); ?>">
 
@@ -43,7 +46,7 @@ $layout_class = 'agoodsign-image-text--image-' . esc_attr( $image_position );
 				<h2 class="agoodsign-slide__heading"><?php echo esc_html( $slide['heading'] ); ?></h2>
 			<?php endif; ?>
 			<?php if ( ! empty( $slide['body_text'] ) ) : ?>
-				<p class="agoodsign-slide__body"><?php echo wp_kses_post( $slide['body_text'] ); ?></p>
+				<p class="agoodsign-slide__body"><?php echo wp_kses_post( nl2br( $slide['body_text'] ) ); ?></p>
 			<?php endif; ?>
 		</div>
 	<?php endif; ?>

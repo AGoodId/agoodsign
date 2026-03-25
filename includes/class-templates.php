@@ -148,6 +148,8 @@ class AGoodSign_Templates {
 			'image_size'       => absint( get_post_meta( $post_id, '_agoodsign_image_size', true ) ) ?: 60,
 			'image_position'   => get_post_meta( $post_id, '_agoodsign_image_position', true ) ?: 'top',
 			'image_radius'     => absint( get_post_meta( $post_id, '_agoodsign_image_radius', true ) ),
+			'heading_size'     => absint( get_post_meta( $post_id, '_agoodsign_heading_size', true ) ),
+			'body_size'        => absint( get_post_meta( $post_id, '_agoodsign_body_size', true ) ),
 			'pin_enabled'      => (bool) get_post_meta( $post_id, '_agoodsign_pin_enabled', true ),
 			'pin_icon'         => get_post_meta( $post_id, '_agoodsign_pin_icon', true ) ?: 'map-pin',
 			'pin_x'            => floatval( get_post_meta( $post_id, '_agoodsign_pin_x', true ) ?: 50 ),

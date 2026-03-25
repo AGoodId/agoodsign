@@ -176,6 +176,27 @@ class AGoodSign_Meta_Box {
 						</div>
 					</div>
 
+					<!-- Font sizes -->
+					<div class="agoodsign-editor__section">
+						<label class="agoodsign-editor__label">
+							<?php esc_html_e( 'Heading Size', 'agoodsign' ); ?>: <span x-text="slide.heading_size ? slide.heading_size + 'px' : '<?php esc_attr_e( 'Default', 'agoodsign' ); ?>'"></span>
+						</label>
+						<div class="agoodsign-editor__range-row">
+							<input type="range" x-model.number="slide.heading_size" min="0" max="120" step="2" style="flex:1">
+							<button type="button" class="button button-small" @click="slide.heading_size = 0" title="<?php esc_attr_e( 'Reset to default', 'agoodsign' ); ?>">&times;</button>
+						</div>
+					</div>
+
+					<div class="agoodsign-editor__section">
+						<label class="agoodsign-editor__label">
+							<?php esc_html_e( 'Body Text Size', 'agoodsign' ); ?>: <span x-text="slide.body_size ? slide.body_size + 'px' : '<?php esc_attr_e( 'Default', 'agoodsign' ); ?>'"></span>
+						</label>
+						<div class="agoodsign-editor__range-row">
+							<input type="range" x-model.number="slide.body_size" min="0" max="80" step="2" style="flex:1">
+							<button type="button" class="button button-small" @click="slide.body_size = 0" title="<?php esc_attr_e( 'Reset to default', 'agoodsign' ); ?>">&times;</button>
+						</div>
+					</div>
+
 					<!-- Body text with toolbar -->
 					<div class="agoodsign-editor__section">
 						<label class="agoodsign-editor__label" for="agoodsign-body"><?php esc_html_e( 'Body text', 'agoodsign' ); ?></label>
@@ -493,6 +514,8 @@ class AGoodSign_Meta_Box {
 			<input type="hidden" name="_agoodsign_image_size" :value="slide.image_size">
 			<input type="hidden" name="_agoodsign_image_position" :value="slide.image_position">
 			<input type="hidden" name="_agoodsign_image_radius" :value="slide.image_radius">
+			<input type="hidden" name="_agoodsign_heading_size" :value="slide.heading_size">
+			<input type="hidden" name="_agoodsign_body_size" :value="slide.body_size">
 			<input type="hidden" name="_agoodsign_pin_enabled" :value="slide.pin_enabled ? '1' : '0'">
 			<input type="hidden" name="_agoodsign_pin_icon" :value="slide.pin_icon">
 			<input type="hidden" name="_agoodsign_pin_x" :value="slide.pin_x">
@@ -546,6 +569,8 @@ class AGoodSign_Meta_Box {
 			'_agoodsign_image_size'       => 'absint',
 			'_agoodsign_image_position'   => 'sanitize_text_field',
 			'_agoodsign_image_radius'     => 'absint',
+			'_agoodsign_heading_size'     => 'absint',
+			'_agoodsign_body_size'        => 'absint',
 			'_agoodsign_pin_enabled'      => 'rest_sanitize_boolean',
 			'_agoodsign_pin_icon'         => 'sanitize_text_field',
 			'_agoodsign_pin_x'            => 'floatval',

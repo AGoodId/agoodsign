@@ -19,9 +19,12 @@ $video_fit     = $slide['video_fit'] ?? 'cover';
 
 $is_youtube = preg_match( '/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/', $video_url, $yt_match );
 $is_vimeo   = preg_match( '/vimeo\.com\/([0-9]+)/', $video_url, $vm_match );
+$font_styles  = '';
+$font_styles .= ! empty( $slide['heading_size'] ) ? '--agoodsign-heading-size:' . absint( $slide['heading_size'] ) . 'px;' : '';
+$font_styles .= ! empty( $slide['body_size'] ) ? '--agoodsign-body-size:' . absint( $slide['body_size'] ) . 'px;' : '';
 ?>
 <div class="agoodsign-slide agoodsign-slide--video"
-	style="color: <?php echo esc_attr( $slide['text_color'] ?: '#ffffff' ); ?>"
+	style="color: <?php echo esc_attr( $slide['text_color'] ?: '#ffffff' ); ?>; <?php echo $font_styles; ?>"
 	data-duration="<?php echo absint( $slide['duration'] ); ?>"
 	data-animation="<?php echo esc_attr( $slide['animation'] ); ?>">
 
@@ -50,7 +53,7 @@ $is_vimeo   = preg_match( '/vimeo\.com\/([0-9]+)/', $video_url, $vm_match );
 				<h2 class="agoodsign-slide__heading"><?php echo esc_html( $slide['heading'] ); ?></h2>
 			<?php endif; ?>
 			<?php if ( ! empty( $slide['body_text'] ) ) : ?>
-				<p class="agoodsign-slide__body"><?php echo wp_kses_post( $slide['body_text'] ); ?></p>
+				<p class="agoodsign-slide__body"><?php echo wp_kses_post( nl2br( $slide['body_text'] ) ); ?></p>
 			<?php endif; ?>
 		</div>
 	<?php endif; ?>

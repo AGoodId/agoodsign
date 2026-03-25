@@ -474,6 +474,13 @@
 	height: 18px;
 }
 
+/* Range row (slider + reset button) */
+.agoodsign-editor__range-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
 /* Text toolbar */
 .agoodsign-editor__toolbar {
 	display: flex;

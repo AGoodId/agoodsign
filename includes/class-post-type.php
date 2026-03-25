@@ -201,6 +201,16 @@ class AGoodSign_Post_Type {
 				'default'           => 0,
 				'sanitize_callback' => 'absint',
 			),
+			'_agoodsign_heading_size'     => array(
+				'type'              => 'integer',
+				'default'           => 0,
+				'sanitize_callback' => 'absint',
+			),
+			'_agoodsign_body_size'        => array(
+				'type'              => 'integer',
+				'default'           => 0,
+				'sanitize_callback' => 'absint',
+			),
 			'_agoodsign_pin_enabled'      => array(
 				'type'              => 'boolean',
 				'default'           => false,

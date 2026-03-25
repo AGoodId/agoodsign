@@ -12,10 +12,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$has_bg_image = ! empty( $slide['image_url'] );
+$has_bg_image  = ! empty( $slide['image_url'] );
+$font_styles   = '';
+$font_styles  .= ! empty( $slide['heading_size'] ) ? '--agoodsign-heading-size:' . absint( $slide['heading_size'] ) . 'px;' : '';
+$font_styles  .= ! empty( $slide['body_size'] ) ? '--agoodsign-body-size:' . absint( $slide['body_size'] ) . 'px;' : '';
 ?>
 <div class="agoodsign-slide agoodsign-slide--title-card"
-	style="color: <?php echo esc_attr( $slide['text_color'] ?: '#ffffff' ); ?>;<?php if ( ! $has_bg_image ) : ?> background-color: <?php echo esc_attr( $slide['bg_color'] ); ?><?php endif; ?>"
+	style="color: <?php echo esc_attr( $slide['text_color'] ?: '#ffffff' ); ?>;<?php if ( ! $has_bg_image ) : ?> background-color: <?php echo esc_attr( $slide['bg_color'] ); ?>;<?php endif; ?> <?php echo $font_styles; ?>"
 	data-duration="<?php echo absint( $slide['duration'] ); ?>"
 	data-animation="<?php echo esc_attr( $slide['animation'] ); ?>">
 
@@ -33,7 +36,7 @@ $has_bg_image = ! empty( $slide['image_url'] );
 		<div class="agoodsign-title-card__divider"></div>
 
 		<?php if ( ! empty( $slide['body_text'] ) ) : ?>
-			<p class="agoodsign-slide__body agoodsign-title-card__subtitle"><?php echo wp_kses_post( $slide['body_text'] ); ?></p>
+			<p class="agoodsign-slide__body agoodsign-title-card__subtitle"><?php echo wp_kses_post( nl2br( $slide['body_text'] ) ); ?></p>
 		<?php endif; ?>
 
 		<div class="agoodsign-title-card__border-bottom"></div>
