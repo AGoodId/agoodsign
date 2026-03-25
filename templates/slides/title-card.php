@@ -23,7 +23,7 @@ $has_bg_image = ! empty( $slide['image_url'] );
 		<div class="agoodsign-slide__bg agoodsign-title-card__bg-darken" style="background-image: url('<?php echo esc_url( $slide['image_url'] ); ?>')"></div>
 	<?php endif; ?>
 
-	<div class="agoodsign-title-card__content">
+	<div class="agoodsign-title-card__content" style="text-align: <?php echo esc_attr( $slide['text_align'] ?? 'center' ); ?>">
 		<div class="agoodsign-title-card__border-top"></div>
 
 		<?php if ( ! empty( $slide['heading'] ) ) : ?>

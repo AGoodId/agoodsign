@@ -37,7 +37,8 @@ $layout_class = 'agoodsign-image-text--image-' . esc_attr( $image_position );
 	<?php endif; ?>
 
 	<?php if ( $has_text ) : ?>
-		<div class="agoodsign-image-text__text">
+		<div class="agoodsign-image-text__text"
+			style="text-align: <?php echo esc_attr( $slide['text_align'] ?? 'center' ); ?>">
 			<?php if ( ! empty( $slide['heading'] ) ) : ?>
 				<h2 class="agoodsign-slide__heading"><?php echo esc_html( $slide['heading'] ); ?></h2>
 			<?php endif; ?>

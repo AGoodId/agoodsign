@@ -31,6 +31,7 @@ document.addEventListener( 'alpine:init', () => {
 			pin_size: initialData.pin_size || 48,
 			pin_label: initialData.pin_label || '',
 			pin_animation: initialData.pin_animation || 'pulse',
+			text_align: initialData.text_align || 'center',
 			image_size: initialData.image_size || 60,
 			image_position: initialData.image_position || 'top',
 			image_radius: initialData.image_radius || 0,
@@ -406,22 +407,24 @@ body {
 		buildSplit( s ) {
 			const dir = s.split_image_side === 'right' ? ' split--image-right' : '';
 			const bg = s.image_url ? `<div class="slide__bg" style="background-image:url('${this.escHtml( s.image_url )}')"></div>` : '';
+			const align = s.text_align || 'center';
 			return `<div class="split${dir}" style="position:relative">
 				<div class="split__image">${bg}</div>
-				<div class="split__text" style="background-color:${this.escHtml( s.bg_color )}">
+				<div class="split__text" style="background-color:${this.escHtml( s.bg_color )};text-align:${align}">
 					${s.heading ? `<h2 class="heading">${this.escHtml( s.heading )}</h2>` : ''}
-					${s.body_text ? `<p class="body-text">${this.escHtml( s.body_text )}</p>` : ''}
+					${s.body_text ? `<p class="body-text">${this.sanitizeHtml( s.body_text )}</p>` : ''}
 				</div>
 				${this.buildPin( s )}
 			</div>`;
 		},
 
 		buildTextOnly( s ) {
-			return `<div class="text-only" style="background-color:${this.escHtml( s.bg_color )};position:relative">
+			const align = s.text_align || 'center';
+			return `<div class="text-only" style="background-color:${this.escHtml( s.bg_color )};position:relative;text-align:${align}">
 				<div>
 					${s.heading ? `<h2 class="heading">${this.escHtml( s.heading )}</h2>` : ''}
 					<div class="text-only__divider"></div>
-					${s.body_text ? `<p class="body-text">${this.escHtml( s.body_text )}</p>` : ''}
+					${s.body_text ? `<p class="body-text">${this.sanitizeHtml( s.body_text )}</p>` : ''}
 				</div>
 				${this.buildPin( s )}
 			</div>`;
@@ -452,14 +455,15 @@ body {
 				? `<div class="slide__bg title-card__bg-darken" style="background-image:url('${this.escHtml( s.image_url )}')"></div>`
 				: '';
 			const bgStyle = ! s.image_url ? `background-color:${this.escHtml( s.bg_color )}` : '';
+			const align = s.text_align || 'center';
 
-			return `<div class="title-card" style="${bgStyle}">
+			return `<div class="title-card" style="${bgStyle};text-align:${align}">
 				${bg}
 				<div class="title-card__content">
 					<div class="title-card__border-top"></div>
 					${s.heading ? `<h2 class="heading title-card__heading">${this.escHtml( s.heading )}</h2>` : ''}
 					<div class="title-card__divider"></div>
-					${s.body_text ? `<p class="body-text title-card__subtitle">${this.escHtml( s.body_text )}</p>` : ''}
+					${s.body_text ? `<p class="body-text title-card__subtitle">${this.sanitizeHtml( s.body_text )}</p>` : ''}
 					<div class="title-card__border-bottom"></div>
 				</div>
 				${this.buildPin( s )}
@@ -471,6 +475,7 @@ body {
 			const pos = s.image_position || 'top';
 			const radius = s.image_radius || 0;
 			const dirClass = pos === 'bottom' ? ' image-text--image-bottom' : '';
+			const align = s.text_align || 'center';
 
 			const img = s.image_url
 				? `<div class="image-text__image" style="width:${size}%">
@@ -481,9 +486,9 @@ body {
 				: '';
 
 			const text = ( s.heading || s.body_text )
-				? `<div class="image-text__text">
+				? `<div class="image-text__text" style="text-align:${align}">
 					${s.heading ? `<h2 class="heading">${this.escHtml( s.heading )}</h2>` : ''}
-					${s.body_text ? `<p class="body-text">${this.escHtml( s.body_text )}</p>` : ''}
+					${s.body_text ? `<p class="body-text">${this.sanitizeHtml( s.body_text )}</p>` : ''}
 				</div>`
 				: '';
 
@@ -495,9 +500,10 @@ body {
 		buildOverlay( s ) {
 			if ( ! s.heading && ! s.body_text ) return '';
 			const pos = s.overlay_position || 'bottom';
-			return `<div class="overlay overlay--${pos}">
+			const align = s.text_align || 'center';
+			return `<div class="overlay overlay--${pos}" style="text-align:${align}">
 				${s.heading ? `<h2 class="heading">${this.escHtml( s.heading )}</h2>` : ''}
-				${s.body_text ? `<p class="body-text">${this.escHtml( s.body_text )}</p>` : ''}
+				${s.body_text ? `<p class="body-text">${this.sanitizeHtml( s.body_text )}</p>` : ''}
 			</div>`;
 		},
 
@@ -516,6 +522,22 @@ body {
 			const div = document.createElement( 'div' );
 			div.textContent = str;
 			return div.innerHTML;
+		},
+
+		/**
+		 * Sanitize HTML — allow only safe inline tags.
+		 */
+		sanitizeHtml( str ) {
+			if ( ! str ) return '';
+			// Escape everything first, then restore allowed tags.
+			let escaped = this.escHtml( str );
+			escaped = escaped.replace( /&lt;br&gt;/gi, '<br>' );
+			escaped = escaped.replace( /&lt;br\s*\/&gt;/gi, '<br>' );
+			escaped = escaped.replace( /&lt;strong&gt;/gi, '<strong>' );
+			escaped = escaped.replace( /&lt;\/strong&gt;/gi, '</strong>' );
+			escaped = escaped.replace( /&lt;em&gt;/gi, '<em>' );
+			escaped = escaped.replace( /&lt;\/em&gt;/gi, '</em>' );
+			return escaped;
 		},
 
 		/**
@@ -546,6 +568,49 @@ body {
 			const rect = event.currentTarget.getBoundingClientRect();
 			this.slide.image_focus_x = Math.round( ( event.clientX - rect.left ) / rect.width * 100 );
 			this.slide.image_focus_y = Math.round( ( event.clientY - rect.top ) / rect.height * 100 );
+		},
+
+		/**
+		 * Wrap selected text in a textarea with an HTML tag.
+		 */
+		wrapSelection( textareaId, tag ) {
+			const el = document.getElementById( textareaId );
+			if ( ! el ) return;
+
+			const start = el.selectionStart;
+			const end   = el.selectionEnd;
+			const text  = el.value;
+			const selected = text.substring( start, end );
+
+			const wrapped = '<' + tag + '>' + selected + '</' + tag + '>';
+			this.slide.body_text = text.substring( 0, start ) + wrapped + text.substring( end );
+
+			// Restore cursor after Vue/Alpine updates.
+			this.$nextTick( () => {
+				el.focus();
+				el.selectionStart = start;
+				el.selectionEnd = start + wrapped.length;
+			} );
+		},
+
+		/**
+		 * Insert text at cursor position in a textarea.
+		 */
+		insertAtCursor( textareaId, insertText ) {
+			const el = document.getElementById( textareaId );
+			if ( ! el ) return;
+
+			const start = el.selectionStart;
+			const text  = el.value;
+
+			this.slide.body_text = text.substring( 0, start ) + insertText + text.substring( start );
+
+			this.$nextTick( () => {
+				el.focus();
+				const newPos = start + insertText.length;
+				el.selectionStart = newPos;
+				el.selectionEnd = newPos;
+			} );
 		},
 	} ) );
 } );

@@ -148,9 +148,48 @@ class AGoodSign_Meta_Box {
 							placeholder="<?php esc_attr_e( 'Enter heading...', 'agoodsign' ); ?>">
 					</div>
 
-					<!-- Body text -->
+					<!-- Text alignment -->
+					<div class="agoodsign-editor__section">
+						<label class="agoodsign-editor__label"><?php esc_html_e( 'Text Alignment', 'agoodsign' ); ?></label>
+						<div class="agoodsign-editor__btn-group">
+							<button type="button"
+								class="agoodsign-editor__btn-group-item"
+								:class="{ 'is-active': slide.text_align === 'left' }"
+								@click="slide.text_align = 'left'"
+								title="<?php esc_attr_e( 'Left', 'agoodsign' ); ?>">
+								<span class="dashicons dashicons-editor-alignleft"></span>
+							</button>
+							<button type="button"
+								class="agoodsign-editor__btn-group-item"
+								:class="{ 'is-active': slide.text_align === 'center' }"
+								@click="slide.text_align = 'center'"
+								title="<?php esc_attr_e( 'Center', 'agoodsign' ); ?>">
+								<span class="dashicons dashicons-editor-aligncenter"></span>
+							</button>
+							<button type="button"
+								class="agoodsign-editor__btn-group-item"
+								:class="{ 'is-active': slide.text_align === 'right' }"
+								@click="slide.text_align = 'right'"
+								title="<?php esc_attr_e( 'Right', 'agoodsign' ); ?>">
+								<span class="dashicons dashicons-editor-alignright"></span>
+							</button>
+						</div>
+					</div>
+
+					<!-- Body text with toolbar -->
 					<div class="agoodsign-editor__section">
 						<label class="agoodsign-editor__label" for="agoodsign-body"><?php esc_html_e( 'Body text', 'agoodsign' ); ?></label>
+						<div class="agoodsign-editor__toolbar">
+							<button type="button" class="agoodsign-editor__toolbar-btn" @click="wrapSelection('agoodsign-body', 'strong')" title="<?php esc_attr_e( 'Bold', 'agoodsign' ); ?>">
+								<strong>B</strong>
+							</button>
+							<button type="button" class="agoodsign-editor__toolbar-btn" @click="wrapSelection('agoodsign-body', 'em')" title="<?php esc_attr_e( 'Italic', 'agoodsign' ); ?>">
+								<em>I</em>
+							</button>
+							<button type="button" class="agoodsign-editor__toolbar-btn" @click="insertAtCursor('agoodsign-body', '&lt;br&gt;')" title="<?php esc_attr_e( 'Line break', 'agoodsign' ); ?>">
+								&#8629;
+							</button>
+						</div>
 						<textarea
 							id="agoodsign-body"
 							x-model="slide.body_text"
@@ -450,6 +489,7 @@ class AGoodSign_Meta_Box {
 			<input type="hidden" name="_agoodsign_image_focus_x" :value="slide.image_focus_x">
 			<input type="hidden" name="_agoodsign_image_focus_y" :value="slide.image_focus_y">
 			<input type="hidden" name="_agoodsign_text_color" :value="slide.text_color">
+			<input type="hidden" name="_agoodsign_text_align" :value="slide.text_align">
 			<input type="hidden" name="_agoodsign_image_size" :value="slide.image_size">
 			<input type="hidden" name="_agoodsign_image_position" :value="slide.image_position">
 			<input type="hidden" name="_agoodsign_image_radius" :value="slide.image_radius">
@@ -502,6 +542,7 @@ class AGoodSign_Meta_Box {
 			'_agoodsign_image_focus_x'    => 'floatval',
 			'_agoodsign_image_focus_y'    => 'floatval',
 			'_agoodsign_text_color'       => 'sanitize_hex_color',
+			'_agoodsign_text_align'       => 'sanitize_text_field',
 			'_agoodsign_image_size'       => 'absint',
 			'_agoodsign_image_position'   => 'sanitize_text_field',
 			'_agoodsign_image_radius'     => 'absint',

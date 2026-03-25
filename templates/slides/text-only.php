@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div class="agoodsign-slide agoodsign-slide--text-only"
-	style="background-color: <?php echo esc_attr( $slide['bg_color'] ); ?>; color: <?php echo esc_attr( $slide['text_color'] ?: '#ffffff' ); ?>"
+	style="background-color: <?php echo esc_attr( $slide['bg_color'] ); ?>; color: <?php echo esc_attr( $slide['text_color'] ?: '#ffffff' ); ?>; text-align: <?php echo esc_attr( $slide['text_align'] ?? 'center' ); ?>"
 	data-duration="<?php echo absint( $slide['duration'] ); ?>"
 	data-animation="<?php echo esc_attr( $slide['animation'] ); ?>">
 

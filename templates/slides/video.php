@@ -44,7 +44,8 @@ $is_vimeo   = preg_match( '/vimeo\.com\/([0-9]+)/', $video_url, $vm_match );
 	<?php endif; ?>
 
 	<?php if ( $has_text ) : ?>
-		<div class="agoodsign-overlay <?php echo esc_attr( $overlay_class ); ?>">
+		<div class="agoodsign-overlay <?php echo esc_attr( $overlay_class ); ?>"
+			style="text-align: <?php echo esc_attr( $slide['text_align'] ?? 'center' ); ?>">
 			<?php if ( ! empty( $slide['heading'] ) ) : ?>
 				<h2 class="agoodsign-slide__heading"><?php echo esc_html( $slide['heading'] ); ?></h2>
 			<?php endif; ?>

@@ -143,6 +143,7 @@ class AGoodSign_Templates {
 			'image_focus_x'    => floatval( get_post_meta( $post_id, '_agoodsign_image_focus_x', true ) ?: 50 ),
 			'image_focus_y'    => floatval( get_post_meta( $post_id, '_agoodsign_image_focus_y', true ) ?: 50 ),
 			'text_color'       => get_post_meta( $post_id, '_agoodsign_text_color', true ) ?: '#ffffff',
+			'text_align'       => get_post_meta( $post_id, '_agoodsign_text_align', true ) ?: 'center',
 			'image_size'       => absint( get_post_meta( $post_id, '_agoodsign_image_size', true ) ) ?: 60,
 			'image_position'   => get_post_meta( $post_id, '_agoodsign_image_position', true ) ?: 'top',
 			'image_radius'     => absint( get_post_meta( $post_id, '_agoodsign_image_radius', true ) ),

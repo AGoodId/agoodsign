@@ -25,7 +25,8 @@ $has_text      = ! empty( $slide['heading'] ) || ! empty( $slide['body_text'] );
 	<?php endif; ?>
 
 	<?php if ( $has_text ) : ?>
-		<div class="agoodsign-overlay <?php echo esc_attr( $overlay_class ); ?>">
+		<div class="agoodsign-overlay <?php echo esc_attr( $overlay_class ); ?>"
+			style="text-align: <?php echo esc_attr( $slide['text_align'] ?? 'center' ); ?>">
 			<?php if ( ! empty( $slide['heading'] ) ) : ?>
 				<h2 class="agoodsign-slide__heading"><?php echo esc_html( $slide['heading'] ); ?></h2>
 			<?php endif; ?>

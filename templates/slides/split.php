@@ -26,7 +26,7 @@ $modifier   = 'agoodsign-slide--split-image-' . esc_attr( $image_side );
 		<?php endif; ?>
 	</div>
 
-	<div class="agoodsign-split__text" style="background-color: <?php echo esc_attr( $slide['bg_color'] ); ?>">
+	<div class="agoodsign-split__text" style="background-color: <?php echo esc_attr( $slide['bg_color'] ); ?>; text-align: <?php echo esc_attr( $slide['text_align'] ?? 'center' ); ?>">
 		<?php if ( ! empty( $slide['heading'] ) ) : ?>
 			<h2 class="agoodsign-slide__heading"><?php echo esc_html( $slide['heading'] ); ?></h2>
 		<?php endif; ?>

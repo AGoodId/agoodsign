@@ -181,6 +181,11 @@ class AGoodSign_Post_Type {
 				'default'           => '#ffffff',
 				'sanitize_callback' => 'sanitize_hex_color',
 			),
+			'_agoodsign_text_align'       => array(
+				'type'              => 'string',
+				'default'           => 'center',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
 			'_agoodsign_image_size'       => array(
 				'type'              => 'integer',
 				'default'           => 60,

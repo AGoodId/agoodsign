@@ -432,6 +432,76 @@
 	text-align: center;
 }
 
+/* Button group (text alignment) */
+.agoodsign-editor__btn-group {
+	display: inline-flex;
+	border: 1px solid #8c8f94;
+	border-radius: 4px;
+	overflow: hidden;
+}
+
+.agoodsign-editor__btn-group-item {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 32px;
+	border: none;
+	border-right: 1px solid #8c8f94;
+	background: #fff;
+	cursor: pointer;
+	transition: background 0.15s, color 0.15s;
+	color: #50575e;
+}
+
+.agoodsign-editor__btn-group-item:last-child {
+	border-right: none;
+}
+
+.agoodsign-editor__btn-group-item:hover {
+	background: #f0f6fc;
+	color: #2271b1;
+}
+
+.agoodsign-editor__btn-group-item.is-active {
+	background: #2271b1;
+	color: #fff;
+}
+
+.agoodsign-editor__btn-group-item .dashicons {
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+}
+
+/* Text toolbar */
+.agoodsign-editor__toolbar {
+	display: flex;
+	gap: 2px;
+	margin-bottom: 4px;
+}
+
+.agoodsign-editor__toolbar-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 28px;
+	border: 1px solid #dcdcde;
+	border-radius: 3px;
+	background: #fff;
+	cursor: pointer;
+	font-size: 14px;
+	color: #50575e;
+	transition: background 0.15s, color 0.15s;
+}
+
+.agoodsign-editor__toolbar-btn:hover {
+	background: #f0f6fc;
+	color: #2271b1;
+	border-color: #2271b1;
+}
+
 /* Smooth transitions for conditional fields */
 [x-transition] {
 	transition: opacity 0.2s ease, transform 0.2s ease;
