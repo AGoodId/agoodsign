@@ -3,7 +3,7 @@
  * Plugin Name: AGoodSign
  * Plugin URI:  https://github.com/AGoodId/agoodsign
  * Description: Lightweight digital signage plugin for WordPress. Create slides, organize them in channels, and display them on screens.
- * Version:     0.3.2
+ * Version:     0.4.0
  * Author:      Mat Singerdal
  * Author URI:  https://github.com/matsingerdal
  * License:     GPL-2.0-or-later
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'AGOODSIGN_VERSION', '0.3.2' );
+define( 'AGOODSIGN_VERSION', '0.4.0' );
 define( 'AGOODSIGN_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'AGOODSIGN_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'AGOODSIGN_PLUGIN_FILE', __FILE__ );
@@ -48,6 +48,7 @@ require_once AGOODSIGN_PLUGIN_DIR . 'includes/class-screens.php';
 require_once AGOODSIGN_PLUGIN_DIR . 'includes/class-fonts.php';
 require_once AGOODSIGN_PLUGIN_DIR . 'includes/class-icons.php';
 require_once AGOODSIGN_PLUGIN_DIR . 'includes/class-rest-api.php';
+require_once AGOODSIGN_PLUGIN_DIR . 'includes/class-channel-editor.php';
 
 /**
  * Initialize all plugin components.
@@ -60,6 +61,7 @@ function agoodsign_init() {
 	AGoodSign_Screens::init();
 	AGoodSign_Fonts::init();
 	AGoodSign_REST_API::init();
+	AGoodSign_Channel_Editor::init();
 }
 add_action( 'plugins_loaded', 'agoodsign_init' );
 
