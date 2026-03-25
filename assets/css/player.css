@@ -273,6 +273,36 @@ body {
 	to   { transform: scale(1.12) translate(-2%, -1%); }
 }
 
+/* === Image + Text template === */
+.agoodsign-slide--image-text {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 60px;
+	gap: 40px;
+}
+
+.agoodsign-slide--image-text.agoodsign-image-text--image-bottom {
+	flex-direction: column-reverse;
+}
+
+.agoodsign-image-text__image {
+	flex-shrink: 0;
+}
+
+.agoodsign-image-text__image img {
+	display: block;
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+}
+
+.agoodsign-image-text__text {
+	text-align: center;
+	flex-shrink: 0;
+}
+
 /* === Pin / Marker === */
 
 .agoodsign-pin {

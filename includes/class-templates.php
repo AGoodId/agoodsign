@@ -55,6 +55,12 @@ class AGoodSign_Templates {
 				'icon'        => 'heading',
 				'fields'      => array( 'heading', 'body_text', 'image', 'bg_color' ),
 			),
+			'image-text'       => array(
+				'name'        => __( 'Image + Text', 'agoodsign' ),
+				'description' => __( 'Positioned image with heading and text', 'agoodsign' ),
+				'icon'        => 'align-center',
+				'fields'      => array( 'image', 'heading', 'body_text', 'bg_color' ),
+			),
 		);
 	}
 
@@ -137,6 +143,9 @@ class AGoodSign_Templates {
 			'image_focus_x'    => floatval( get_post_meta( $post_id, '_agoodsign_image_focus_x', true ) ?: 50 ),
 			'image_focus_y'    => floatval( get_post_meta( $post_id, '_agoodsign_image_focus_y', true ) ?: 50 ),
 			'text_color'       => get_post_meta( $post_id, '_agoodsign_text_color', true ) ?: '#ffffff',
+			'image_size'       => absint( get_post_meta( $post_id, '_agoodsign_image_size', true ) ) ?: 60,
+			'image_position'   => get_post_meta( $post_id, '_agoodsign_image_position', true ) ?: 'top',
+			'image_radius'     => absint( get_post_meta( $post_id, '_agoodsign_image_radius', true ) ),
 			'pin_enabled'      => (bool) get_post_meta( $post_id, '_agoodsign_pin_enabled', true ),
 			'pin_icon'         => get_post_meta( $post_id, '_agoodsign_pin_icon', true ) ?: 'map-pin',
 			'pin_x'            => floatval( get_post_meta( $post_id, '_agoodsign_pin_x', true ) ?: 50 ),

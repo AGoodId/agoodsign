@@ -267,6 +267,30 @@ class AGoodSign_Meta_Box {
 						</div>
 					</div>
 
+					<!-- Image + Text settings -->
+					<div class="agoodsign-editor__section" x-show="slide.template === 'image-text'" x-transition>
+						<label class="agoodsign-editor__label"><?php esc_html_e( 'Image Layout', 'agoodsign' ); ?></label>
+						<select x-model="slide.image_position" class="agoodsign-editor__select">
+							<option value="top"><?php esc_html_e( 'Image above text', 'agoodsign' ); ?></option>
+							<option value="bottom"><?php esc_html_e( 'Image below text', 'agoodsign' ); ?></option>
+							<option value="center"><?php esc_html_e( 'Image centered, text below', 'agoodsign' ); ?></option>
+						</select>
+					</div>
+
+					<div class="agoodsign-editor__section" x-show="slide.template === 'image-text'" x-transition>
+						<label class="agoodsign-editor__label">
+							<?php esc_html_e( 'Image Size', 'agoodsign' ); ?>: <span x-text="slide.image_size"></span>%
+						</label>
+						<input type="range" x-model.number="slide.image_size" min="20" max="100" step="5" style="width:100%">
+					</div>
+
+					<div class="agoodsign-editor__section" x-show="slide.template === 'image-text'" x-transition>
+						<label class="agoodsign-editor__label">
+							<?php esc_html_e( 'Border Radius', 'agoodsign' ); ?>: <span x-text="slide.image_radius"></span>px
+						</label>
+						<input type="range" x-model.number="slide.image_radius" min="0" max="60" step="2" style="width:100%">
+					</div>
+
 					<!-- Split image side -->
 					<div class="agoodsign-editor__section" x-show="slide.template === 'split'" x-transition>
 						<label class="agoodsign-editor__label" for="agoodsign-split-side"><?php esc_html_e( 'Image Side', 'agoodsign' ); ?></label>
@@ -426,6 +450,9 @@ class AGoodSign_Meta_Box {
 			<input type="hidden" name="_agoodsign_image_focus_x" :value="slide.image_focus_x">
 			<input type="hidden" name="_agoodsign_image_focus_y" :value="slide.image_focus_y">
 			<input type="hidden" name="_agoodsign_text_color" :value="slide.text_color">
+			<input type="hidden" name="_agoodsign_image_size" :value="slide.image_size">
+			<input type="hidden" name="_agoodsign_image_position" :value="slide.image_position">
+			<input type="hidden" name="_agoodsign_image_radius" :value="slide.image_radius">
 			<input type="hidden" name="_agoodsign_pin_enabled" :value="slide.pin_enabled ? '1' : '0'">
 			<input type="hidden" name="_agoodsign_pin_icon" :value="slide.pin_icon">
 			<input type="hidden" name="_agoodsign_pin_x" :value="slide.pin_x">
@@ -475,6 +502,9 @@ class AGoodSign_Meta_Box {
 			'_agoodsign_image_focus_x'    => 'floatval',
 			'_agoodsign_image_focus_y'    => 'floatval',
 			'_agoodsign_text_color'       => 'sanitize_hex_color',
+			'_agoodsign_image_size'       => 'absint',
+			'_agoodsign_image_position'   => 'sanitize_text_field',
+			'_agoodsign_image_radius'     => 'absint',
 			'_agoodsign_pin_enabled'      => 'rest_sanitize_boolean',
 			'_agoodsign_pin_icon'         => 'sanitize_text_field',
 			'_agoodsign_pin_x'            => 'floatval',

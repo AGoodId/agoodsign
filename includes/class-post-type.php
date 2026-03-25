@@ -181,6 +181,21 @@ class AGoodSign_Post_Type {
 				'default'           => '#ffffff',
 				'sanitize_callback' => 'sanitize_hex_color',
 			),
+			'_agoodsign_image_size'       => array(
+				'type'              => 'integer',
+				'default'           => 60,
+				'sanitize_callback' => 'absint',
+			),
+			'_agoodsign_image_position'   => array(
+				'type'              => 'string',
+				'default'           => 'top',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
+			'_agoodsign_image_radius'     => array(
+				'type'              => 'integer',
+				'default'           => 0,
+				'sanitize_callback' => 'absint',
+			),
 			'_agoodsign_pin_enabled'      => array(
 				'type'              => 'boolean',
 				'default'           => false,

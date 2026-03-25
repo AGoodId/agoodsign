@@ -31,6 +31,9 @@ document.addEventListener( 'alpine:init', () => {
 			pin_size: initialData.pin_size || 48,
 			pin_label: initialData.pin_label || '',
 			pin_animation: initialData.pin_animation || 'pulse',
+			image_size: initialData.image_size || 60,
+			image_position: initialData.image_position || 'top',
+			image_radius: initialData.image_radius || 0,
 		},
 
 		// Pin icon search state.
@@ -62,6 +65,7 @@ document.addEventListener( 'alpine:init', () => {
 			'text-only':        [ 'bg_color' ],
 			'video':            [ 'video', 'overlay' ],
 			'title-card':       [ 'image', 'bg_color' ],
+			'image-text':       [ 'image', 'bg_color' ],
 		},
 
 		get needsImage() {
@@ -117,6 +121,9 @@ document.addEventListener( 'alpine:init', () => {
 					break;
 				case 'title-card':
 					slideHtml = this.buildTitleCard( s );
+					break;
+				case 'image-text':
+					slideHtml = this.buildImageText( s );
 					break;
 				default:
 					slideHtml = this.buildFullscreenImage( s );
@@ -361,6 +368,30 @@ body {
 .pin--none .pin__icon {
 	filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
 }
+
+/* Image + Text */
+.image-text {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	padding: 60px;
+	gap: 40px;
+	position: relative;
+}
+.image-text--image-bottom { flex-direction: column-reverse; }
+.image-text__image { flex-shrink: 0; }
+.image-text__image img {
+	display: block;
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+}
+.image-text__text {
+	text-align: center;
+	flex-shrink: 0;
+}
 </style>
 </head>
 <body>${slideHtml}</body>
@@ -432,6 +463,32 @@ body {
 					<div class="title-card__border-bottom"></div>
 				</div>
 				${this.buildPin( s )}
+			</div>`;
+		},
+
+		buildImageText( s ) {
+			const size = s.image_size || 60;
+			const pos = s.image_position || 'top';
+			const radius = s.image_radius || 0;
+			const dirClass = pos === 'bottom' ? ' image-text--image-bottom' : '';
+
+			const img = s.image_url
+				? `<div class="image-text__image" style="width:${size}%">
+					<img src="${this.escHtml( s.image_url )}"
+						style="${radius ? 'border-radius:' + radius + 'px;' : ''}object-position:${s.image_focus_x}% ${s.image_focus_y}%"
+						alt="">
+				</div>`
+				: '';
+
+			const text = ( s.heading || s.body_text )
+				? `<div class="image-text__text">
+					${s.heading ? `<h2 class="heading">${this.escHtml( s.heading )}</h2>` : ''}
+					${s.body_text ? `<p class="body-text">${this.escHtml( s.body_text )}</p>` : ''}
+				</div>`
+				: '';
+
+			return `<div class="image-text${dirClass}" style="background-color:${this.escHtml( s.bg_color )};position:relative">
+				${img}${text}${this.buildPin( s )}
 			</div>`;
 		},
 
