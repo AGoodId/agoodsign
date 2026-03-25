@@ -48,6 +48,22 @@
 		if ( nextBtn ) nextBtn.addEventListener( 'click', function () { goToNext(); } );
 		if ( pauseBtn ) pauseBtn.addEventListener( 'click', togglePause );
 
+		// External control via postMessage (used by preview modal).
+		window.addEventListener( 'message', function ( e ) {
+			if ( ! e.data || e.data.source !== 'agoodsign' ) return;
+			switch ( e.data.action ) {
+				case 'prev':
+					goToPrev();
+					break;
+				case 'next':
+					goToNext();
+					break;
+				case 'toggle-pause':
+					togglePause();
+					break;
+			}
+		} );
+
 		// Keyboard navigation.
 		document.addEventListener( 'keydown', function ( e ) {
 			switch ( e.key ) {
@@ -160,6 +176,15 @@
 		} else {
 			scheduleNext();
 		}
+
+		// Notify parent window of pause state.
+		if ( window.parent !== window ) {
+			window.parent.postMessage( {
+				source: 'agoodsign',
+				action: 'pause-update',
+				paused: paused,
+			}, '*' );
+		}
 	}
 
 	/**
@@ -168,6 +193,16 @@
 	function updateCounter() {
 		if ( counter ) {
 			counter.textContent = ( currentIndex + 1 ) + ' / ' + wrappers.length;
+		}
+		// Notify parent window (preview modal) of slide change.
+		if ( window.parent !== window ) {
+			window.parent.postMessage( {
+				source: 'agoodsign',
+				action: 'counter-update',
+				current: currentIndex + 1,
+				total: wrappers.length,
+				paused: paused,
+			}, '*' );
 		}
 	}
 

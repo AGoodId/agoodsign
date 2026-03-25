@@ -57,7 +57,7 @@
 		const closeBtn = document.createElement( 'button' );
 		closeBtn.textContent = '\u00D7 Close';
 		closeBtn.style.cssText = 'background:#333;border:1px solid #555;color:#fff;padding:6px 16px;border-radius:4px;cursor:pointer;font-size:14px';
-		closeBtn.onclick = function () { modal.remove(); };
+		closeBtn.onclick = function () { cleanup(); modal.remove(); };
 		titleBar.appendChild( closeBtn );
 
 		// iframe container — simulate a screen.
@@ -80,13 +80,108 @@
 		container.appendChild( iframe );
 		modal.appendChild( titleBar );
 		modal.appendChild( container );
+
+		// Navigation controls — outside the iframe.
+		var controls = document.createElement( 'div' );
+		controls.style.cssText = 'display:flex;align-items:center;gap:12px;font-family:-apple-system,BlinkMacSystemFont,sans-serif';
+
+		var prevBtn = document.createElement( 'button' );
+		prevBtn.innerHTML = '&#8249;';
+		prevBtn.title = 'Previous slide';
+		prevBtn.style.cssText = 'width:44px;height:44px;border:1px solid #555;border-radius:50%;background:#333;color:#fff;font-size:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1';
+
+		var pauseBtn = document.createElement( 'button' );
+		pauseBtn.innerHTML = '&#10074;&#10074;';
+		pauseBtn.title = 'Pause / Play';
+		pauseBtn.style.cssText = 'width:44px;height:44px;border:1px solid #555;border-radius:50%;background:#333;color:#fff;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;letter-spacing:2px;line-height:1';
+
+		var nextBtn = document.createElement( 'button' );
+		nextBtn.innerHTML = '&#8250;';
+		nextBtn.title = 'Next slide';
+		nextBtn.style.cssText = 'width:44px;height:44px;border:1px solid #555;border-radius:50%;background:#333;color:#fff;font-size:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1';
+
+		var counterEl = document.createElement( 'span' );
+		counterEl.style.cssText = 'color:rgba(255,255,255,0.6);font-size:14px;margin-left:8px;min-width:40px;text-align:center';
+		counterEl.textContent = '1 / –';
+
+		function sendAction( action ) {
+			if ( iframe.contentWindow ) {
+				iframe.contentWindow.postMessage( { source: 'agoodsign', action: action }, '*' );
+			}
+		}
+
+		prevBtn.onclick = function () { sendAction( 'prev' ); };
+		nextBtn.onclick = function () { sendAction( 'next' ); };
+		pauseBtn.onclick = function () { sendAction( 'toggle-pause' ); };
+
+		// Listen for updates from the player iframe.
+		var isPaused = false;
+		function onPlayerMessage( e ) {
+			if ( ! e.data || e.data.source !== 'agoodsign' ) return;
+			if ( e.data.action === 'counter-update' ) {
+				counterEl.textContent = e.data.current + ' / ' + e.data.total;
+				isPaused = e.data.paused;
+				updatePauseBtn();
+			}
+			if ( e.data.action === 'pause-update' ) {
+				isPaused = e.data.paused;
+				updatePauseBtn();
+			}
+		}
+		function updatePauseBtn() {
+			if ( isPaused ) {
+				pauseBtn.innerHTML = '&#9654;';
+				pauseBtn.style.fontSize = '18px';
+				pauseBtn.style.letterSpacing = '0';
+			} else {
+				pauseBtn.innerHTML = '&#10074;&#10074;';
+				pauseBtn.style.fontSize = '14px';
+				pauseBtn.style.letterSpacing = '2px';
+			}
+		}
+		window.addEventListener( 'message', onPlayerMessage );
+
+		controls.appendChild( prevBtn );
+		controls.appendChild( pauseBtn );
+		controls.appendChild( nextBtn );
+		controls.appendChild( counterEl );
+		modal.appendChild( controls );
+
 		document.body.appendChild( modal );
+
+		// Keyboard navigation forwarded to iframe.
+		function onKeyNav( e ) {
+			if ( ! document.getElementById( 'agoodsign-preview-modal' ) ) {
+				document.removeEventListener( 'keydown', onKeyNav );
+				return;
+			}
+			switch ( e.key ) {
+				case 'ArrowLeft':
+					sendAction( 'prev' );
+					break;
+				case 'ArrowRight':
+					sendAction( 'next' );
+					break;
+				case ' ':
+					e.preventDefault();
+					sendAction( 'toggle-pause' );
+					break;
+			}
+		}
+		document.addEventListener( 'keydown', onKeyNav );
+
+		// Cleanup all listeners.
+		function cleanup() {
+			window.removeEventListener( 'message', onPlayerMessage );
+			document.removeEventListener( 'keydown', onKeyNav );
+		}
 
 		// Close on Escape.
 		function onEscape( e ) {
 			if ( e.key === 'Escape' ) {
-				modal.remove();
+				cleanup();
 				document.removeEventListener( 'keydown', onEscape );
+				modal.remove();
 			}
 		}
 		document.addEventListener( 'keydown', onEscape );

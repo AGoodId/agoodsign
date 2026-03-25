@@ -377,6 +377,11 @@ body {
 	pointer-events: auto;
 }
 
+/* Preview mode: hide in-iframe controls (external controls used instead) */
+.agoodsign-player.is-preview .agoodsign-controls {
+	display: none;
+}
+
 .agoodsign-controls__btn {
 	width: 48px;
 	height: 48px;
