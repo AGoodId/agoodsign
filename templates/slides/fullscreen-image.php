@@ -24,7 +24,7 @@ $font_styles  .= ! empty( $slide['body_size'] ) ? '--agoodsign-body-size:' . abs
 	data-animation="<?php echo esc_attr( $slide['animation'] ); ?>">
 
 	<?php if ( ! empty( $slide['image_url'] ) ) : ?>
-		<div class="agoodsign-slide__bg" style="background-image: url('<?php echo esc_url( $slide['image_url'] ); ?>')"></div>
+		<div class="agoodsign-slide__bg" style="background-image: url('<?php echo esc_url( $slide['image_url'] ); ?>'); background-position: <?php echo floatval( $slide['image_focus_x'] ); ?>% <?php echo floatval( $slide['image_focus_y'] ); ?>%"></div>
 	<?php endif; ?>
 
 	<?php if ( $has_text ) : ?>

@@ -23,7 +23,7 @@ $font_styles  .= ! empty( $slide['body_size'] ) ? '--agoodsign-body-size:' . abs
 	data-animation="<?php echo esc_attr( $slide['animation'] ); ?>">
 
 	<?php if ( $has_bg_image ) : ?>
-		<div class="agoodsign-slide__bg agoodsign-title-card__bg-darken" style="background-image: url('<?php echo esc_url( $slide['image_url'] ); ?>')"></div>
+		<div class="agoodsign-slide__bg agoodsign-title-card__bg-darken" style="background-image: url('<?php echo esc_url( $slide['image_url'] ); ?>'); background-position: <?php echo floatval( $slide['image_focus_x'] ); ?>% <?php echo floatval( $slide['image_focus_y'] ); ?>%"></div>
 	<?php endif; ?>
 
 	<div class="agoodsign-title-card__content" style="text-align: <?php echo esc_attr( $slide['text_align'] ?? 'center' ); ?>">

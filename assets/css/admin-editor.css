@@ -276,7 +276,7 @@
 .agoodsign-editor__preview-frame {
 	width: 270px;
 	height: 480px;
-	border-radius: 6px;
+	border-radius: 0;
 	overflow: hidden;
 	box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 	position: relative;
