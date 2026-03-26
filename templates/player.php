@@ -68,6 +68,8 @@ $is_preview = isset( $_GET['preview'] ) && '1' === $_GET['preview'];
 			}, $slides ),
 			'resolution' => $resolution,
 			'isPreview'  => $is_preview,
+			'screenId'   => isset( $screen_id ) ? absint( $screen_id ) : 0,
+			'hashUrl'    => isset( $screen_id ) ? rest_url( 'agoodsign/v1/screens/' . absint( $screen_id ) . '/hash' ) : '',
 		) ); ?>;
 	</script>
 

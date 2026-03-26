@@ -51,6 +51,19 @@ class AGoodSign_REST_API {
 			'permission_callback' => '__return_true',
 		) );
 
+		// GET /screens/{id}/hash — lightweight change-detection for player polling.
+		register_rest_route( self::NAMESPACE, '/screens/(?P<id>[0-9]+)/hash', array(
+			'methods'             => WP_REST_Server::READABLE,
+			'callback'            => array( __CLASS__, 'get_screen_hash' ),
+			'permission_callback' => '__return_true',
+			'args'                => array(
+				'id' => array(
+					'required'          => true,
+					'sanitize_callback' => 'absint',
+				),
+			),
+		) );
+
 		// GET /screens/{id}
 		register_rest_route( self::NAMESPACE, '/screens/(?P<id>[0-9]+)', array(
 			'methods'             => WP_REST_Server::READABLE,
@@ -137,6 +150,42 @@ class AGoodSign_REST_API {
 		}
 
 		return new WP_REST_Response( $result, 200 );
+	}
+
+	/**
+	 * GET /screens/{id}/hash — Return a hash of the screen's current content.
+	 *
+	 * The player polls this endpoint to detect changes without transferring
+	 * all slide data. When the hash changes, the player reloads the page.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response
+	 */
+	public static function get_screen_hash( $request ) {
+		$id      = $request->get_param( 'id' );
+		$screens = get_option( 'agoodsign_screens', array() );
+
+		if ( ! isset( $screens[ $id ] ) ) {
+			return new WP_REST_Response( array( 'error' => 'Screen not found.' ), 404 );
+		}
+
+		$screen = $screens[ $id ];
+		$slides = array();
+
+		if ( ! empty( $screen['channel'] ) ) {
+			$slides = AGoodSign_Templates::get_channel_slides( $screen['channel'] );
+		}
+
+		// Build a hash from slide data that would affect rendering.
+		$hash_input = wp_json_encode( array(
+			'channel'    => $screen['channel'] ?? '',
+			'slides'     => $slides,
+			'resolution' => $screen['resolution'] ?? array(),
+		) );
+
+		return new WP_REST_Response( array(
+			'hash' => md5( $hash_input ),
+		), 200 );
 	}
 
 	/**

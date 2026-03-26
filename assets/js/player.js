@@ -252,10 +252,98 @@
 		}
 	}
 
+	/**
+	 * Auto-refresh: poll the hash endpoint and reload when content changes.
+	 */
+	function startAutoRefresh() {
+		if ( ! data.hashUrl || data.isPreview ) return;
+
+		var currentHash = '';
+		var pollInterval = 60000; // 60 seconds.
+		var errorCount = 0;
+
+		function poll() {
+			fetch( data.hashUrl, { cache: 'no-store' } )
+				.then( function ( res ) { return res.json(); } )
+				.then( function ( json ) {
+					errorCount = 0;
+					if ( ! currentHash ) {
+						// First poll — store the initial hash.
+						currentHash = json.hash;
+					} else if ( json.hash !== currentHash ) {
+						// Content changed — reload the page.
+						window.location.reload();
+					}
+				} )
+				.catch( function () {
+					errorCount++;
+					// After 10 consecutive failures, back off to 5 minutes.
+					if ( errorCount >= 10 ) {
+						pollInterval = 300000;
+					}
+				} )
+				.finally( function () {
+					setTimeout( poll, pollInterval );
+				} );
+		}
+
+		// Start polling after a short delay.
+		setTimeout( poll, pollInterval );
+	}
+
+	/**
+	 * Request a Screen Wake Lock to prevent the display from sleeping.
+	 */
+	function requestWakeLock() {
+		if ( ! ( 'wakeLock' in navigator ) || data.isPreview ) return;
+
+		var wakeLock = null;
+
+		function acquire() {
+			navigator.wakeLock.request( 'screen' )
+				.then( function ( lock ) {
+					wakeLock = lock;
+					wakeLock.addEventListener( 'release', function () {
+						wakeLock = null;
+					} );
+				} )
+				.catch( function () {
+					// Wake lock not available — ignore silently.
+				} );
+		}
+
+		acquire();
+
+		// Re-acquire when tab becomes visible again.
+		document.addEventListener( 'visibilitychange', function () {
+			if ( ! document.hidden && ! wakeLock ) {
+				acquire();
+			}
+		} );
+	}
+
+	/**
+	 * Prevent right-click context menu on signage screens.
+	 */
+	function disableContextMenu() {
+		if ( data.isPreview ) return;
+		document.addEventListener( 'contextmenu', function ( e ) {
+			e.preventDefault();
+		} );
+	}
+
 	// Start.
 	if ( document.readyState === 'loading' ) {
-		document.addEventListener( 'DOMContentLoaded', init );
+		document.addEventListener( 'DOMContentLoaded', function () {
+			init();
+			startAutoRefresh();
+			requestWakeLock();
+			disableContextMenu();
+		} );
 	} else {
 		init();
+		startAutoRefresh();
+		requestWakeLock();
+		disableContextMenu();
 	}
 } )();

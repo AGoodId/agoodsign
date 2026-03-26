@@ -14,6 +14,9 @@ html, body {
 	height: 100%;
 	overflow: hidden;
 	background: #000;
+	cursor: none;
+	user-select: none;
+	-webkit-user-select: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -399,12 +402,6 @@ body {
 	opacity: 0;
 	transition: opacity 0.3s ease;
 	pointer-events: none;
-}
-
-.agoodsign-player:hover .agoodsign-controls,
-.agoodsign-player.is-preview .agoodsign-controls {
-	opacity: 1;
-	pointer-events: auto;
 }
 
 /* Preview mode: hide in-iframe controls (external controls used instead) */
