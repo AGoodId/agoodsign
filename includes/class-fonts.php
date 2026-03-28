@@ -55,6 +55,26 @@ class AGoodSign_Fonts {
 	}
 
 	/**
+	 * Extract base font family name from a font name with style suffix.
+	 * E.g. "IosevkaEtoile Bold" → "IosevkaEtoile", "Ff Gothic" → "Ff Gothic".
+	 *
+	 * @param string $name Full font name.
+	 * @return string Base family name.
+	 */
+	public static function get_base_family( $name ) {
+		$style_words = array( 'regular', 'bold', 'bolditalic', 'italic', 'light', 'medium', 'semibold', 'thin', 'extralight', 'extrabold', 'black', 'heavy' );
+		$base = $name;
+		foreach ( $style_words as $sw ) {
+			$pos = stripos( $base, ' ' . $sw );
+			if ( false !== $pos ) {
+				$base = trim( substr( $base, 0, $pos ) );
+				break;
+			}
+		}
+		return ! empty( $base ) ? $base : $name;
+	}
+
+	/**
 	 * Render font @font-face styles for the player.
 	 * Loads from Google Fonts CDN (WOFF2, display=swap).
 	 */
@@ -79,24 +99,38 @@ class AGoodSign_Fonts {
 
 		// Load custom uploaded fonts.
 		if ( ! empty( $custom ) ) {
-			$fmt_map = array( 'woff2' => 'woff2', 'woff' => 'woff', 'ttf' => 'truetype' );
+			$fmt_map     = array( 'woff2' => 'woff2', 'woff' => 'woff', 'ttf' => 'truetype' );
+			$style_words = array( 'regular', 'bold', 'bolditalic', 'italic', 'light', 'medium', 'semibold', 'thin', 'extralight', 'extrabold', 'black', 'heavy' );
+
 			echo "<style>\n";
 			foreach ( $custom as $font ) {
 				$font_url  = esc_url( $font['url'] );
-				$font_name = esc_attr( $font['name'] );
+				$font_name = $font['name'];
 				$ext       = strtolower( pathinfo( $font['url'], PATHINFO_EXTENSION ) );
 				$fmt       = isset( $fmt_map[ $ext ] ) ? $fmt_map[ $ext ] : 'woff2';
-				$name_lc   = strtolower( $font['name'] );
-				$weight    = '400';
-				$style     = 'normal';
-				if ( false !== strpos( $name_lc, 'bold' ) ) {
+
+				// Derive base family name by stripping weight/style suffixes.
+				$name_lc   = strtolower( $font_name );
+				$base_name = self::get_base_family( $font_name );
+
+				$weight = '400';
+				$style  = 'normal';
+				if ( false !== strpos( $name_lc, 'bold' ) || false !== strpos( $name_lc, 'heavy' ) || false !== strpos( $name_lc, 'black' ) ) {
 					$weight = '700';
+				} elseif ( false !== strpos( $name_lc, 'semibold' ) ) {
+					$weight = '600';
+				} elseif ( false !== strpos( $name_lc, 'medium' ) ) {
+					$weight = '500';
+				} elseif ( false !== strpos( $name_lc, 'light' ) || false !== strpos( $name_lc, 'thin' ) ) {
+					$weight = '300';
 				}
 				if ( false !== strpos( $name_lc, 'italic' ) ) {
 					$style = 'italic';
 				}
+
+				$base_name_safe = esc_attr( $base_name );
 				echo "@font-face {\n";
-				echo "\tfont-family: '{$font_name}';\n";
+				echo "\tfont-family: '{$base_name_safe}';\n";
 				echo "\tsrc: url('{$font_url}') format('{$fmt}');\n";
 				echo "\tfont-weight: {$weight};\n";
 				echo "\tfont-style: {$style};\n";
@@ -116,7 +150,10 @@ class AGoodSign_Fonts {
 		$fonts        = self::get_font_list();
 		$custom_fonts = get_option( 'agoodsign_custom_fonts', array() );
 		foreach ( $custom_fonts as $font ) {
-			$fonts[ $font['name'] ] = $font['name'];
+			$base = self::get_base_family( $font['name'] );
+			if ( ! isset( $fonts[ $base ] ) ) {
+				$fonts[ $base ] = $base;
+			}
 		}
 
 		settings_errors( 'agoodsign_fonts' );
@@ -204,11 +241,14 @@ class AGoodSign_Fonts {
 
 		<script>
 		( function () {
-			var customFontNames = <?php echo wp_json_encode( array_column( get_option( 'agoodsign_custom_fonts', array() ), 'name' ) ); ?>;
 			var customFontUrls  = <?php
 				$pairs = array();
 				foreach ( get_option( 'agoodsign_custom_fonts', array() ) as $f ) {
-					$pairs[ $f['name'] ] = $f['url'];
+					$base = AGoodSign_Fonts::get_base_family( $f['name'] );
+					// Use the Regular variant for preview; first match wins.
+					if ( ! isset( $pairs[ $base ] ) ) {
+						$pairs[ $base ] = $f['url'];
+					}
 				}
 				echo wp_json_encode( $pairs );
 			?>;

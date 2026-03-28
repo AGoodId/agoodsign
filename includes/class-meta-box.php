@@ -90,15 +90,25 @@ class AGoodSign_Meta_Box {
 
 		// Build @font-face CSS string for custom fonts so the preview iframe can load them.
 		$custom_font_css = '';
+		$fmt_map = array( 'woff2' => 'woff2', 'woff' => 'woff', 'ttf' => 'truetype' );
 		foreach ( $custom_fonts as $font ) {
-			$ext = strtolower( pathinfo( $font['url'], PATHINFO_EXTENSION ) );
-			$fmt_map = array( 'woff2' => 'woff2', 'woff' => 'woff', 'ttf' => 'truetype' );
-			$fmt = isset( $fmt_map[ $ext ] ) ? $fmt_map[ $ext ] : 'woff2';
-			$custom_font_css .= "@font-face{font-family:'" . esc_attr( $font['name'] ) . "';src:url('" . esc_url_raw( $font['url'] ) . "') format('" . $fmt . "');font-display:swap;}";
+			$ext       = strtolower( pathinfo( $font['url'], PATHINFO_EXTENSION ) );
+			$fmt       = isset( $fmt_map[ $ext ] ) ? $fmt_map[ $ext ] : 'woff2';
+			$base_name = AGoodSign_Fonts::get_base_family( $font['name'] );
+			$name_lc   = strtolower( $font['name'] );
+			$weight    = '400';
+			$style     = 'normal';
+			if ( false !== strpos( $name_lc, 'bold' ) ) { $weight = '700'; }
+			if ( false !== strpos( $name_lc, 'italic' ) ) { $style = 'italic'; }
+			$custom_font_css .= "@font-face{font-family:'" . esc_attr( $base_name ) . "';src:url('" . esc_url_raw( $font['url'] ) . "') format('" . $fmt . "');font-weight:{$weight};font-style:{$style};font-display:swap;}";
 		}
 
 		// Build Google Fonts URL for fonts not in custom list.
-		$custom_names    = array_column( $custom_fonts, 'name' );
+		$custom_names = array();
+		foreach ( $custom_fonts as $f ) {
+			$custom_names[] = AGoodSign_Fonts::get_base_family( $f['name'] );
+		}
+		$custom_names = array_unique( $custom_names );
 		$google_families = array();
 		if ( $font_heading && ! in_array( $font_heading, $custom_names, true ) ) {
 			$google_families[] = str_replace( ' ', '+', $font_heading ) . ':wght@400;700';
