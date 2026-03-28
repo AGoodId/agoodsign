@@ -564,6 +564,10 @@ class AGoodSign_Meta_Box {
 	 * @param WP_Post $post    Post object.
 	 */
 	public static function save( $post_id, $post ) {
+		if ( 'signage_slide' !== get_post_type( $post_id ) ) {
+			return;
+		}
+
 		if ( ! isset( $_POST['agoodsign_nonce'] ) || ! wp_verify_nonce( $_POST['agoodsign_nonce'], 'agoodsign_save_slide' ) ) {
 			return;
 		}

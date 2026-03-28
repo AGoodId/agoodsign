@@ -74,6 +74,9 @@ class AGoodSign_Player {
 	 * @param int $screen_id Screen ID (1-5).
 	 */
 	private static function render_screen( $screen_id ) {
+		// Prevent page caching — signage content must always be fresh.
+		nocache_headers();
+
 		$screens = get_option( 'agoodsign_screens', array() );
 
 		if ( ! isset( $screens[ $screen_id ] ) || empty( $screens[ $screen_id ]['active'] ) ) {
