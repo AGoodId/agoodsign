@@ -99,9 +99,13 @@ class AGoodSign_Fonts {
 	 * Render the font settings section on the settings page.
 	 */
 	public static function render_settings_section() {
-		$heading = get_option( 'agoodsign_font_heading', '' );
-		$body    = get_option( 'agoodsign_font_body', '' );
-		$fonts   = self::get_font_list();
+		$heading      = get_option( 'agoodsign_font_heading', '' );
+		$body         = get_option( 'agoodsign_font_body', '' );
+		$fonts        = self::get_font_list();
+		$custom_fonts = get_option( 'agoodsign_custom_fonts', array() );
+		foreach ( $custom_fonts as $font ) {
+			$fonts[ $font['name'] ] = $font['name'];
+		}
 
 		settings_errors( 'agoodsign_fonts' );
 		?>
@@ -188,21 +192,39 @@ class AGoodSign_Fonts {
 
 		<script>
 		( function () {
-			// Load Google Fonts CSS for preview.
-			var headingSel = document.getElementById( 'agoodsign-font-heading' );
-			var bodySel = document.getElementById( 'agoodsign-font-body' );
+			var customFontNames = <?php echo wp_json_encode( array_column( get_option( 'agoodsign_custom_fonts', array() ), 'name' ) ); ?>;
+			var customFontUrls  = <?php
+				$pairs = array();
+				foreach ( get_option( 'agoodsign_custom_fonts', array() ) as $f ) {
+					$pairs[ $f['name'] ] = $f['url'];
+				}
+				echo wp_json_encode( $pairs );
+			?>;
+
+			var headingSel    = document.getElementById( 'agoodsign-font-heading' );
+			var bodySel       = document.getElementById( 'agoodsign-font-body' );
 			var headingPreview = document.getElementById( 'agoodsign-heading-preview' );
-			var bodyPreview = document.getElementById( 'agoodsign-body-preview' );
+			var bodyPreview   = document.getElementById( 'agoodsign-body-preview' );
 
 			function loadFont( family ) {
 				if ( ! family ) return;
 				var id = 'agoodsign-preview-font-' + family.replace( /\s+/g, '-' );
 				if ( document.getElementById( id ) ) return;
-				var link = document.createElement( 'link' );
-				link.id = id;
-				link.rel = 'stylesheet';
-				link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent( family ) + ':wght@400;700&display=swap';
-				document.head.appendChild( link );
+
+				if ( customFontUrls[ family ] ) {
+					// Custom uploaded font — inject @font-face.
+					var style = document.createElement( 'style' );
+					style.id = id;
+					style.textContent = "@font-face { font-family: '" + family + "'; src: url('" + customFontUrls[ family ] + "'); font-display: swap; }";
+					document.head.appendChild( style );
+				} else {
+					// Google Font.
+					var link = document.createElement( 'link' );
+					link.id = id;
+					link.rel = 'stylesheet';
+					link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent( family ) + ':wght@400;700&display=swap';
+					document.head.appendChild( link );
+				}
 			}
 
 			function updatePreview() {

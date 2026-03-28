@@ -3,7 +3,7 @@
  * Plugin Name: AGoodSign
  * Plugin URI:  https://github.com/AGoodId/agoodsign
  * Description: Lightweight digital signage plugin for WordPress. Create slides, organize them in channels, and display them on screens.
- * Version:     0.7.0
+ * Version:     0.7.1
  * Author:      Mat Singerdal
  * Author URI:  https://github.com/matsingerdal
  * License:     GPL-2.0-or-later
