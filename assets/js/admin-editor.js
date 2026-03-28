@@ -39,6 +39,32 @@ document.addEventListener( 'alpine:init', () => {
 			body_size: initialData.body_size || 0,
 		},
 
+		/**
+		 * Sync hidden inputs before form submit.
+		 * Alpine's :value may not reliably update the DOM .value property
+		 * on hidden inputs, causing WordPress to receive stale values.
+		 */
+		init() {
+			const form = this.$el.closest( 'form' );
+			if ( form ) {
+				form.addEventListener( 'submit', () => {
+					const s = this.slide;
+					form.querySelectorAll( 'input[name^="_agoodsign_"]' ).forEach( ( input ) => {
+						const key = input.name.replace( '_agoodsign_', '' );
+						if ( key === 'media_type' ) {
+							input.value = s.template === 'video' ? 'video' : 'image';
+						} else if ( key === 'pin_enabled' ) {
+							input.value = s.pin_enabled ? '1' : '0';
+						} else if ( key === 'image_id' ) {
+							input.value = s.image_id || 0;
+						} else if ( s.hasOwnProperty( key ) ) {
+							input.value = s[ key ];
+						}
+					} );
+				} );
+			}
+		},
+
 		// Pin icon search state.
 		pinIconSearch: '',
 		pinIconDropdownOpen: false,
