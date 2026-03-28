@@ -79,15 +79,27 @@ class AGoodSign_Fonts {
 
 		// Load custom uploaded fonts.
 		if ( ! empty( $custom ) ) {
+			$fmt_map = array( 'woff2' => 'woff2', 'woff' => 'woff', 'ttf' => 'truetype' );
 			echo "<style>\n";
 			foreach ( $custom as $font ) {
-				$font_url = esc_url( $font['url'] );
+				$font_url  = esc_url( $font['url'] );
 				$font_name = esc_attr( $font['name'] );
+				$ext       = strtolower( pathinfo( $font['url'], PATHINFO_EXTENSION ) );
+				$fmt       = isset( $fmt_map[ $ext ] ) ? $fmt_map[ $ext ] : 'woff2';
+				$name_lc   = strtolower( $font['name'] );
+				$weight    = '400';
+				$style     = 'normal';
+				if ( false !== strpos( $name_lc, 'bold' ) ) {
+					$weight = '700';
+				}
+				if ( false !== strpos( $name_lc, 'italic' ) ) {
+					$style = 'italic';
+				}
 				echo "@font-face {\n";
 				echo "\tfont-family: '{$font_name}';\n";
-				echo "\tsrc: url('{$font_url}') format('woff2');\n";
-				echo "\tfont-weight: 400;\n";
-				echo "\tfont-style: normal;\n";
+				echo "\tsrc: url('{$font_url}') format('{$fmt}');\n";
+				echo "\tfont-weight: {$weight};\n";
+				echo "\tfont-style: {$style};\n";
 				echo "\tfont-display: swap;\n";
 				echo "}\n";
 			}
