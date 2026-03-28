@@ -140,7 +140,17 @@ class AGoodSign_Meta_Box {
 
 		$templates  = AGoodSign_Templates::get_templates();
 		$animations = AGoodSign_Templates::get_animations();
+
+		// Debug: show saved meta value and template file status.
+		$raw_template = get_post_meta( $post->ID, '_agoodsign_template', true );
+		$tpl_file     = AGOODSIGN_PLUGIN_DIR . 'templates/slides/' . sanitize_file_name( $raw_template ?: 'fullscreen-image' ) . '.php';
 		?>
+		<div style="background:#fff3cd;border:1px solid #ffc107;padding:8px 12px;margin-bottom:12px;font-size:13px;border-radius:4px">
+			<strong>Debug:</strong>
+			Saved template in DB: <code><?php echo esc_html( $raw_template ?: '(empty)' ); ?></code> |
+			File exists: <code><?php echo file_exists( $tpl_file ) ? 'YES' : 'NO — ' . esc_html( $tpl_file ); ?></code> |
+			Plugin version: <code><?php echo esc_html( AGOODSIGN_VERSION ); ?></code>
+		</div>
 		<div x-data="agoodsignSlideEditor(<?php echo esc_attr( wp_json_encode( $slide ) ); ?>)"
 			class="agoodsign-editor">
 
