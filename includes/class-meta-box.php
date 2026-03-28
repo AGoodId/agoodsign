@@ -521,38 +521,38 @@ class AGoodSign_Meta_Box {
 				</div>
 			</div>
 
-			<!-- Hidden inputs for WP save -->
-			<input type="hidden" name="_agoodsign_template" :value="slide.template">
-			<input type="hidden" name="_agoodsign_heading" :value="slide.heading">
-			<input type="hidden" name="_agoodsign_body_text" :value="slide.body_text">
-			<input type="hidden" name="_agoodsign_image_id" :value="slide.image_id || 0">
-			<input type="hidden" name="_agoodsign_video_url" :value="slide.video_url">
-			<input type="hidden" name="_agoodsign_video_fit" :value="slide.video_fit">
-			<input type="hidden" name="_agoodsign_animation" :value="slide.animation">
-			<input type="hidden" name="_agoodsign_duration" :value="slide.duration">
-			<input type="hidden" name="_agoodsign_bg_color" :value="slide.bg_color">
-			<input type="hidden" name="_agoodsign_overlay_position" :value="slide.overlay_position">
-			<input type="hidden" name="_agoodsign_media_type" :value="slide.template === 'video' ? 'video' : 'image'">
-			<input type="hidden" name="_agoodsign_split_image_side" :value="slide.split_image_side">
-			<input type="hidden" name="_agoodsign_overlay_color" :value="slide.overlay_color">
-			<input type="hidden" name="_agoodsign_overlay_opacity" :value="slide.overlay_opacity">
-			<input type="hidden" name="_agoodsign_image_focus_x" :value="slide.image_focus_x">
-			<input type="hidden" name="_agoodsign_image_focus_y" :value="slide.image_focus_y">
-			<input type="hidden" name="_agoodsign_text_color" :value="slide.text_color">
-			<input type="hidden" name="_agoodsign_text_align" :value="slide.text_align">
-			<input type="hidden" name="_agoodsign_image_size" :value="slide.image_size">
-			<input type="hidden" name="_agoodsign_image_position" :value="slide.image_position">
-			<input type="hidden" name="_agoodsign_image_radius" :value="slide.image_radius">
-			<input type="hidden" name="_agoodsign_heading_size" :value="slide.heading_size">
-			<input type="hidden" name="_agoodsign_body_size" :value="slide.body_size">
-			<input type="hidden" name="_agoodsign_pin_enabled" :value="slide.pin_enabled ? '1' : '0'">
-			<input type="hidden" name="_agoodsign_pin_icon" :value="slide.pin_icon">
-			<input type="hidden" name="_agoodsign_pin_x" :value="slide.pin_x">
-			<input type="hidden" name="_agoodsign_pin_y" :value="slide.pin_y">
-			<input type="hidden" name="_agoodsign_pin_color" :value="slide.pin_color">
-			<input type="hidden" name="_agoodsign_pin_size" :value="slide.pin_size">
-			<input type="hidden" name="_agoodsign_pin_label" :value="slide.pin_label">
-			<input type="hidden" name="_agoodsign_pin_animation" :value="slide.pin_animation">
+			<!-- Hidden inputs for WP save — x-effect sets DOM .value property directly -->
+			<input type="hidden" name="_agoodsign_template" x-effect="$el.value = slide.template">
+			<input type="hidden" name="_agoodsign_heading" x-effect="$el.value = slide.heading">
+			<input type="hidden" name="_agoodsign_body_text" x-effect="$el.value = slide.body_text">
+			<input type="hidden" name="_agoodsign_image_id" x-effect="$el.value = slide.image_id || 0">
+			<input type="hidden" name="_agoodsign_video_url" x-effect="$el.value = slide.video_url">
+			<input type="hidden" name="_agoodsign_video_fit" x-effect="$el.value = slide.video_fit">
+			<input type="hidden" name="_agoodsign_animation" x-effect="$el.value = slide.animation">
+			<input type="hidden" name="_agoodsign_duration" x-effect="$el.value = slide.duration">
+			<input type="hidden" name="_agoodsign_bg_color" x-effect="$el.value = slide.bg_color">
+			<input type="hidden" name="_agoodsign_overlay_position" x-effect="$el.value = slide.overlay_position">
+			<input type="hidden" name="_agoodsign_media_type" x-effect="$el.value = slide.template === 'video' ? 'video' : 'image'">
+			<input type="hidden" name="_agoodsign_split_image_side" x-effect="$el.value = slide.split_image_side">
+			<input type="hidden" name="_agoodsign_overlay_color" x-effect="$el.value = slide.overlay_color">
+			<input type="hidden" name="_agoodsign_overlay_opacity" x-effect="$el.value = slide.overlay_opacity">
+			<input type="hidden" name="_agoodsign_image_focus_x" x-effect="$el.value = slide.image_focus_x">
+			<input type="hidden" name="_agoodsign_image_focus_y" x-effect="$el.value = slide.image_focus_y">
+			<input type="hidden" name="_agoodsign_text_color" x-effect="$el.value = slide.text_color">
+			<input type="hidden" name="_agoodsign_text_align" x-effect="$el.value = slide.text_align">
+			<input type="hidden" name="_agoodsign_image_size" x-effect="$el.value = slide.image_size">
+			<input type="hidden" name="_agoodsign_image_position" x-effect="$el.value = slide.image_position">
+			<input type="hidden" name="_agoodsign_image_radius" x-effect="$el.value = slide.image_radius">
+			<input type="hidden" name="_agoodsign_heading_size" x-effect="$el.value = slide.heading_size">
+			<input type="hidden" name="_agoodsign_body_size" x-effect="$el.value = slide.body_size">
+			<input type="hidden" name="_agoodsign_pin_enabled" x-effect="$el.value = slide.pin_enabled ? '1' : '0'">
+			<input type="hidden" name="_agoodsign_pin_icon" x-effect="$el.value = slide.pin_icon">
+			<input type="hidden" name="_agoodsign_pin_x" x-effect="$el.value = slide.pin_x">
+			<input type="hidden" name="_agoodsign_pin_y" x-effect="$el.value = slide.pin_y">
+			<input type="hidden" name="_agoodsign_pin_color" x-effect="$el.value = slide.pin_color">
+			<input type="hidden" name="_agoodsign_pin_size" x-effect="$el.value = slide.pin_size">
+			<input type="hidden" name="_agoodsign_pin_label" x-effect="$el.value = slide.pin_label">
+			<input type="hidden" name="_agoodsign_pin_animation" x-effect="$el.value = slide.pin_animation">
 		</div>
 		<?php
 	}
