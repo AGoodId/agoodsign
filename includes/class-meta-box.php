@@ -258,15 +258,28 @@ class AGoodSign_Meta_Box {
 							<button type="button" class="agoodsign-editor__toolbar-btn" @click="wrapSelection('agoodsign-body', 'em')" title="<?php esc_attr_e( 'Italic', 'agoodsign' ); ?>">
 								<em>I</em>
 							</button>
+							<span class="agoodsign-editor__toolbar-sep"></span>
 							<button type="button" class="agoodsign-editor__toolbar-btn" @click="insertAtCursor('agoodsign-body', '&lt;br&gt;')" title="<?php esc_attr_e( 'Line break', 'agoodsign' ); ?>">
 								&#8629;
+							</button>
+							<button type="button" class="agoodsign-editor__toolbar-btn" @click="insertAtCursor('agoodsign-body', '—')" title="<?php esc_attr_e( 'Em dash', 'agoodsign' ); ?>">
+								—
+							</button>
+							<button type="button" class="agoodsign-editor__toolbar-btn" @click="insertAtCursor('agoodsign-body', '–')" title="<?php esc_attr_e( 'En dash', 'agoodsign' ); ?>">
+								–
+							</button>
+							<button type="button" class="agoodsign-editor__toolbar-btn" @click="insertAtCursor('agoodsign-body', '°')" title="<?php esc_attr_e( 'Degree', 'agoodsign' ); ?>">
+								°
+							</button>
+							<button type="button" class="agoodsign-editor__toolbar-btn" @click="insertAtCursor('agoodsign-body', '•')" title="<?php esc_attr_e( 'Bullet', 'agoodsign' ); ?>">
+								•
 							</button>
 						</div>
 						<textarea
 							id="agoodsign-body"
 							x-model="slide.body_text"
 							class="agoodsign-editor__textarea widefat"
-							rows="3"
+							rows="4"
 							placeholder="<?php esc_attr_e( 'Enter body text...', 'agoodsign' ); ?>"></textarea>
 					</div>
 

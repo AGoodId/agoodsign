@@ -508,6 +508,13 @@
 	border-color: #2271b1;
 }
 
+.agoodsign-editor__toolbar-sep {
+	width: 1px;
+	height: 24px;
+	background: #dcdcde;
+	margin: 0 2px;
+}
+
 /* Smooth transitions for conditional fields */
 [x-transition] {
 	transition: opacity 0.2s ease, transform 0.2s ease;

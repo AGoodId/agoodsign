@@ -3,7 +3,7 @@
  * Plugin Name: AGoodSign
  * Plugin URI:  https://github.com/AGoodId/agoodsign
  * Description: Lightweight digital signage plugin for WordPress. Create slides, organize them in channels, and display them on screens.
- * Version:     0.8.4
+ * Version:     0.8.5
  * Author:      AGoodId
  * Author URI:  https://agoodid.se
  * License:     GPL-2.0-or-later
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'AGOODSIGN_VERSION', '0.8.4' );
+define( 'AGOODSIGN_VERSION', '0.8.5' );
 define( 'AGOODSIGN_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'AGOODSIGN_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'AGOODSIGN_PLUGIN_FILE', __FILE__ );
