@@ -167,8 +167,11 @@ class AGoodSign_Templates {
 	 * @param array $slide Slide data array.
 	 */
 	public static function render_slide( $slide ) {
-		$template_slug = sanitize_file_name( $slide['template'] );
-		$template_file = AGOODSIGN_PLUGIN_DIR . 'templates/slides/' . $template_slug . '.php';
+		$valid_templates = array_keys( self::get_templates() );
+		$template_slug   = in_array( $slide['template'], $valid_templates, true )
+			? $slide['template']
+			: 'fullscreen-image';
+		$template_file   = AGOODSIGN_PLUGIN_DIR . 'templates/slides/' . $template_slug . '.php';
 
 		if ( ! file_exists( $template_file ) ) {
 			$template_file = AGOODSIGN_PLUGIN_DIR . 'templates/slides/fullscreen-image.php';

@@ -142,8 +142,10 @@ class AGoodSign_Meta_Box {
 		$animations = AGoodSign_Templates::get_animations();
 
 		// Debug: show saved meta value and template file status.
-		$raw_template = get_post_meta( $post->ID, '_agoodsign_template', true );
-		$tpl_file     = AGOODSIGN_PLUGIN_DIR . 'templates/slides/' . sanitize_file_name( $raw_template ?: 'fullscreen-image' ) . '.php';
+		$raw_template  = get_post_meta( $post->ID, '_agoodsign_template', true );
+		$valid_tpls    = array_keys( AGoodSign_Templates::get_templates() );
+		$resolved_slug = in_array( $raw_template, $valid_tpls, true ) ? $raw_template : 'fullscreen-image';
+		$tpl_file      = AGOODSIGN_PLUGIN_DIR . 'templates/slides/' . $resolved_slug . '.php';
 		?>
 		<div style="background:#fff3cd;border:1px solid #ffc107;padding:8px 12px;margin-bottom:12px;font-size:13px;border-radius:4px">
 			<strong>Debug:</strong>
