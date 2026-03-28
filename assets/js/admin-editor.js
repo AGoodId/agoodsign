@@ -103,9 +103,19 @@ document.addEventListener( 'alpine:init', () => {
 		 */
 		get previewHtml() {
 			const s = this.slide;
-			const pluginUrl = window.agoodsignEditor?.pluginUrl || '';
-			const fontHeading = 'var(--agoodsign-font-heading, sans-serif)';
-			const fontBody = 'var(--agoodsign-font-body, sans-serif)';
+			const pluginUrl      = window.agoodsignEditor?.pluginUrl || '';
+			const fontHeadingFam = window.agoodsignEditor?.fontHeading || '';
+			const fontBodyFam    = window.agoodsignEditor?.fontBody || '';
+			const fontHeading    = fontHeadingFam ? `'${fontHeadingFam}', sans-serif` : 'sans-serif';
+			const fontBody       = fontBodyFam ? `'${fontBodyFam}', sans-serif` : 'sans-serif';
+
+			// Font injection for the srcdoc iframe.
+			const googleUrl    = window.agoodsignEditor?.googleFontsUrl || '';
+			const customCss    = window.agoodsignEditor?.customFontCss || '';
+			const fontLinkTag  = googleUrl
+				? `<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="${googleUrl}">`
+				: '';
+			const fontStyleTag = customCss ? `<style>${customCss}</style>` : '';
 
 			let slideHtml = '';
 
@@ -135,6 +145,8 @@ document.addEventListener( 'alpine:init', () => {
 			return `<!DOCTYPE html>
 <html>
 <head>
+${fontLinkTag}
+${fontStyleTag}
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {

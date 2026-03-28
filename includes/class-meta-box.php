@@ -82,20 +82,49 @@ class AGoodSign_Meta_Box {
 			AGOODSIGN_VERSION
 		);
 
-		$templates  = AGoodSign_Templates::get_templates();
-		$animations = AGoodSign_Templates::get_animations();
+		$templates    = AGoodSign_Templates::get_templates();
+		$animations   = AGoodSign_Templates::get_animations();
+		$font_heading = get_option( 'agoodsign_font_heading', '' );
+		$font_body    = get_option( 'agoodsign_font_body', '' );
+		$custom_fonts = get_option( 'agoodsign_custom_fonts', array() );
+
+		// Build @font-face CSS string for custom fonts so the preview iframe can load them.
+		$custom_font_css = '';
+		foreach ( $custom_fonts as $font ) {
+			$ext = strtolower( pathinfo( $font['url'], PATHINFO_EXTENSION ) );
+			$fmt_map = array( 'woff2' => 'woff2', 'woff' => 'woff', 'ttf' => 'truetype' );
+			$fmt = isset( $fmt_map[ $ext ] ) ? $fmt_map[ $ext ] : 'woff2';
+			$custom_font_css .= "@font-face{font-family:'" . esc_attr( $font['name'] ) . "';src:url('" . esc_url_raw( $font['url'] ) . "') format('" . $fmt . "');font-display:swap;}";
+		}
+
+		// Build Google Fonts URL for fonts not in custom list.
+		$custom_names    = array_column( $custom_fonts, 'name' );
+		$google_families = array();
+		if ( $font_heading && ! in_array( $font_heading, $custom_names, true ) ) {
+			$google_families[] = str_replace( ' ', '+', $font_heading ) . ':wght@400;700';
+		}
+		if ( $font_body && ! in_array( $font_body, $custom_names, true ) && $font_body !== $font_heading ) {
+			$google_families[] = str_replace( ' ', '+', $font_body ) . ':wght@400;700';
+		}
+		$google_fonts_url = ! empty( $google_families )
+			? 'https://fonts.googleapis.com/css2?family=' . implode( '&family=', $google_families ) . '&display=swap'
+			: '';
 
 		wp_localize_script( 'agoodsign-admin-editor', 'agoodsignEditor', array(
-			'templates'  => $templates,
-			'animations' => $animations,
-			'previewUrl' => add_query_arg(
+			'templates'      => $templates,
+			'animations'     => $animations,
+			'previewUrl'     => add_query_arg(
 				array(
 					'agoodsign_preview' => 1,
 					'post_id'           => get_the_ID(),
 				),
 				home_url( '/' )
 			),
-			'pluginUrl'  => AGOODSIGN_PLUGIN_URL,
+			'pluginUrl'      => AGOODSIGN_PLUGIN_URL,
+			'fontHeading'    => $font_heading,
+			'fontBody'       => $font_body,
+			'customFontCss'  => $custom_font_css,
+			'googleFontsUrl' => $google_fonts_url,
 		) );
 	}
 
