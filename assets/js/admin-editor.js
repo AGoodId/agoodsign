@@ -326,8 +326,8 @@ body {
 .video-embed--cover {
 	top: 50%;
 	left: 50%;
-	width: 350%;
-	height: 200%;
+	width: 3413px;
+	height: 1920px;
 	transform: translate(-50%, -50%);
 }
 .video-placeholder {

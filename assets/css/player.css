@@ -170,11 +170,18 @@ body {
 	height: 100%;
 }
 
+/*
+ * Cover mode for iframe embeds (YouTube, Vimeo).
+ * Iframes can't use object-fit, so we scale them up to guarantee
+ * the 16:9 video inside fills any viewport aspect ratio.
+ * max(100vw, 177.78vh) = width at least as wide as viewport OR
+ * as wide as needed for a 16:9 video to fill viewport height.
+ */
 .agoodsign-slide__video-embed--cover {
 	top: 50%;
 	left: 50%;
-	width: 350%;
-	height: 200%;
+	width: max(100vw, 177.78vh);
+	height: max(100vh, 56.25vw);
 	transform: translate(-50%, -50%);
 }
 
