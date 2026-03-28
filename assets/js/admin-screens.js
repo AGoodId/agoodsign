@@ -66,6 +66,7 @@
 
 		const iframe = document.createElement( 'iframe' );
 		iframe.src = url;
+		iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
 		iframe.style.cssText = 'border:none;width:1080px;height:1920px;transform-origin:top left';
 
 		// Calculate scale to fit viewport.
